@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PuckMatch AI • Youth Hockey Automated Scheduling Platform</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased">
+
+  <!-- Top Navbar -->
+  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50 px-6 py-3.5 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-rose-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-rose-950/50">
+        <i data-lucide="shield" class="w-5 h-5 text-white"></i>
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="font-extrabold text-lg tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">PuckMatch AI</span>
+          <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30">EHF 2014 Platinum</span>
+        </div>
+        <p class="text-xs text-slate-400">Algorithmic Matchmaking & Ice Slot Optimization</p>
+      </div>
+    </div>
+
+    <!-- Active Team Selector & Global Stats -->
+    <div class="flex items-center gap-6">
+      <div class="hidden md:flex items-center gap-4 text-xs">
+        <div class="bg-slate-800/80 border border-slate-700/60 rounded-lg px-3 py-1.5 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-slate-400">Rest Rule:</span>
+          <span class="font-semibold text-slate-200">&ge; 4.0 hrs Buffer</span>
+        </div>
+        <div class="bg-slate-800/80 border border-slate-700/60 rounded-lg px-3 py-1.5 flex items-center gap-2">
+          <i data-lucide="layers" class="w-3.5 h-3.5 text-indigo-400"></i>
+          <span class="text-slate-400">Slots Open:</span>
+          <span class="font-bold text-rose-400" id="statOpenSlots">10</span>
+        </div>
+        <div class="bg-slate-800/80 border border-slate-700/60 rounded-lg px-3 py-1.5 flex items-center gap-2">
+          <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-400"></i>
+          <span class="text-slate-400">Matches Found:</span>
+          <span class="font-bold text-emerald-400" id="statTotalMatches">44</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="text-right hidden sm:block">
+          <div class="text-xs font-semibold text-slate-200">Crimson 2014 AAA</div>
+          <div class="text-[11px] text-slate-400">Home Rink: Fessenden</div>
+        </div>
+        <div class="w-9 h-9 rounded-full bg-rose-600/30 border border-rose-500/50 flex items-center justify-center font-bold text-rose-300 text-sm">
+          CR
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <div class="flex-1 flex overflow-hidden">
+
+    <!-- Left Sidebar: Open Ice Slots / Crimson Schedule -->
+    <aside class="w-96 border-r border-slate-800 bg-slate-900/40 flex flex-col h-[calc(100vh-61px)]">
+      <div class="p-4 border-b border-slate-800">
+        <div class="flex items-center justify-between mb-2">
+          <h2 class="text-sm font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
+            <i data-lucide="calendar" class="w-4 h-4 text-indigo-400"></i>
+            Crimson Ice Slots
+          </h2>
+          <span class="text-xs bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700" id="slotsBadge">13 Total</span>
+        </div>
+        <div class="flex gap-2 text-xs">
+          <button onclick="filterSlots('all')" class="filter-btn active flex-1 py-1 px-2 rounded bg-indigo-600 text-white font-medium text-center transition" data-filter="all">All</button>
+          <button onclick="filterSlots('tbd')" class="filter-btn flex-1 py-1 px-2 rounded bg-slate-800 text-slate-300 hover:bg-slate-700 font-medium text-center transition" data-filter="tbd">TBD (10)</button>
+          <button onclick="filterSlots('booked')" class="filter-btn flex-1 py-1 px-2 rounded bg-slate-800 text-slate-300 hover:bg-slate-700 font-medium text-center transition" data-filter="booked">Booked (3)</button>
+        </div>
+      </div>
+
+      <!-- Slots List Container -->
+      <div class="flex-1 overflow-y-auto custom-scrollbar p-3 space-y-2.5" id="slotList">
+        <!-- Rendered dynamically -->
+      </div>
+    </aside>
+
+    <!-- Center & Right: Matchmaking Engine & Opponent Discovery -->
+    <main class="flex-1 flex flex-col bg-slate-950 overflow-y-auto custom-scrollbar">
+      
+      <!-- Slot Banner / Active Header -->
+      <div class="p-6 border-b border-slate-800 bg-slate-900/30 flex flex-wrap items-center justify-between gap-4" id="activeSlotHeader">
+        <div>
+          <div class="flex items-center gap-2.5 mb-1">
+            <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-400 border border-indigo-500/30" id="activeSlotBadge">Slot #1 Selected</span>
+            <span class="text-xs text-slate-400 font-mono" id="activeSlotDate">Sat, Sep 19, 2026</span>
+          </div>
+          <h1 class="text-2xl font-black tracking-tight text-white flex items-center gap-2" id="activeSlotTitle">
+            8:20 AM - 9:10 AM @ Fessenden Ice Rink
+          </h1>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button onclick="openBusinessCaseModal()" class="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-300 border border-slate-700 transition">
+            <i data-lucide="trending-up" class="w-4 h-4 text-emerald-400"></i>
+            Executive Business Case
+          </button>
+          <button onclick="openMasterScheduleModal()" class="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-300 border border-slate-700 transition">
+            <i data-lucide="database" class="w-4 h-4 text-indigo-400"></i>
+            View EHF Master Schedule (180)
+          </button>
+        </div>
+      </div>
+
+      <!-- Algorithmic Engine Content -->
+      <div class="p-6 space-y-6 flex-1">
+
+        <!-- Algorithm Insights Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-slate-900/70 border border-slate-800 p-4 rounded-xl flex items-start gap-3.5">
+            <div class="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shrink-0">
+              <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400"></i>
+            </div>
+            <div>
+              <div class="text-xs font-medium text-slate-400">Fully Available Opponents</div>
+              <div class="text-xl font-bold text-white mt-0.5" id="countFullyOpen">0</div>
+              <div class="text-[11px] text-slate-500 mt-0.5">Zero games scheduled all day</div>
+            </div>
+          </div>
+
+          <div class="bg-slate-900/70 border border-slate-800 p-4 rounded-xl flex items-start gap-3.5">
+            <div class="w-9 h-9 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center shrink-0">
+              <i data-lucide="clock" class="w-5 h-5 text-amber-400"></i>
+            </div>
+            <div>
+              <div class="text-xs font-medium text-slate-400">Flexible Same-Day Teams</div>
+              <div class="text-xl font-bold text-white mt-0.5" id="countFlexible">0</div>
+              <div class="text-[11px] text-slate-500 mt-0.5">&ge; 4.0h rest & travel buffer</div>
+            </div>
+          </div>
+
+          <div class="bg-slate-900/70 border border-slate-800 p-4 rounded-xl flex items-start gap-3.5">
+            <div class="w-9 h-9 rounded-lg bg-rose-500/10 border border-rose-500/30 flex items-center justify-center shrink-0">
+              <i data-lucide="alert-octagon" class="w-5 h-5 text-rose-400"></i>
+            </div>
+            <div>
+              <div class="text-xs font-medium text-slate-400">Conflicted Opponents</div>
+              <div class="text-xl font-bold text-white mt-0.5" id="countConflicted">10</div>
+              <div class="text-[11px] text-slate-500 mt-0.5">Direct game conflict / &lt;4h buffer</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Matching Opponents Section -->
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <i data-lucide="sparkles" class="w-4 h-4 text-indigo-400"></i>
+              Ranked Feasible Opponent Matches
+            </h3>
+            <span class="text-xs text-slate-400" id="matchSubtext">Showing automated recommendations</span>
+          </div>
+
+          <!-- Opponent Cards Container -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4" id="opponentCards">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- League Conflict Heatmap for this Date -->
+        <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                <i data-lucide="activity" class="w-4 h-4 text-indigo-400"></i>
+                Date Conflict Matrix (<span id="heatmapDate">Sep 19, 2026</span>)
+              </h4>
+              <p class="text-xs text-slate-400">Real-time status of all 10 teams in 2014 Platinum Division</p>
+            </div>
+            <span class="text-xs bg-slate-800 text-slate-300 px-2.5 py-1 rounded border border-slate-700">10 Teams Monitored</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="border-b border-slate-800 text-slate-400 font-semibold bg-slate-900/80">
+                  <th class="py-2.5 px-3">Team</th>
+                  <th class="py-2.5 px-3">Availability Status</th>
+                  <th class="py-2.5 px-3">Scheduled Games On Date</th>
+                  <th class="py-2.5 px-3">Buffer Feasibility</th>
+                  <th class="py-2.5 px-3 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/60" id="matrixTableBody">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Proposal Send Modal (Action simulation) -->
+  <div id="proposalModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-200">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400">
+            <i data-lucide="send" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-lg text-white">Generate Bilateral Game Proposal</h3>
+            <p class="text-xs text-slate-400">Automated 72h digital lock-in workflow</p>
+          </div>
+        </div>
+        <button onclick="closeProposalModal()" class="text-slate-400 hover:text-white transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs space-y-2.5">
+        <div class="flex justify-between"><span class="text-slate-400">Host Team:</span> <span class="font-semibold text-slate-200">Crimson 2014 AAA</span></div>
+        <div class="flex justify-between"><span class="text-slate-400">Invited Opponent:</span> <span class="font-bold text-indigo-400" id="modalOpponentName">Minuteman Flames</span></div>
+        <div class="flex justify-between"><span class="text-slate-400">Date & Slot:</span> <span class="font-semibold text-slate-200" id="modalSlotTime">Sep 26, 2026 @ 2:00 PM</span></div>
+        <div class="flex justify-between"><span class="text-slate-400">Venue:</span> <span class="font-semibold text-slate-200">Fessenden Ice Rink</span></div>
+        <div class="flex justify-between border-t border-slate-800 pt-2"><span class="text-slate-400">Buffer Validation:</span> <span class="text-emerald-400 font-semibold flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5"></i> Passed (&ge;4.0h rest verified)</span></div>
+      </div>
+
+      <div class="space-y-1.5">
+        <label class="text-xs font-semibold text-slate-300">Proposal Acceptance TTL</label>
+        <select class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
+          <option>72 Hours (Default League Auto-Reversion)</option>
+          <option>48 Hours (Fast Track)</option>
+          <option>24 Hours (Urgent Prime Ice)</option>
+        </select>
+      </div>
+
+      <div class="flex gap-3 pt-2">
+        <button onclick="closeProposalModal()" class="flex-1 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-300 transition">Cancel</button>
+        <button onclick="confirmProposalSend()" class="flex-1 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-bold text-white shadow-lg shadow-indigo-900/40 transition flex items-center justify-center gap-2">
+          <i data-lucide="check" class="w-4 h-4"></i> Dispatch Proposal
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Business Case Modal -->
+  <div id="businessCaseModal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+      <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+            <i data-lucide="pie-chart" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-base text-white">Executive Business Case & Financial Model</h3>
+            <p class="text-xs text-slate-400">From Document ID: BC-2026-01 (EHF Platinum Division)</p>
+          </div>
+        </div>
+        <button onclick="closeBusinessCaseModal()" class="text-slate-400 hover:text-white transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-6 custom-scrollbar text-xs">
+        <!-- Key Metrics Cards -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 text-center">
+            <div class="text-slate-400 text-[11px]">Total Addressable Market</div>
+            <div class="text-lg font-black text-white mt-1">$48.5M</div>
+            <div class="text-[10px] text-slate-500">Youth rink leagues</div>
+          </div>
+          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 text-center">
+            <div class="text-slate-400 text-[11px]">Customer ROI</div>
+            <div class="text-lg font-black text-emerald-400 mt-1">385%</div>
+            <div class="text-[10px] text-slate-500">&lt; 3.2 mos payback</div>
+          </div>
+          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 text-center">
+            <div class="text-slate-400 text-[11px]">Year 3 Projected ARR</div>
+            <div class="text-lg font-black text-indigo-400 mt-1">$3.84M</div>
+            <div class="text-[10px] text-slate-500">320 league orgs</div>
+          </div>
+          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 text-center">
+            <div class="text-slate-400 text-[11px]">Admin Time Saved</div>
+            <div class="text-lg font-black text-amber-400 mt-1">85%</div>
+            <div class="text-[10px] text-slate-500">180+ hrs/club</div>
+          </div>
+        </div>
+
+        <!-- ROI Breakdown Table -->
+        <div>
+          <h4 class="font-bold text-slate-200 mb-2.5 uppercase tracking-wider text-[11px]">Annual Cost-Benefit & Savings (Per Club)</h4>
+          <table class="w-full text-left border-collapse bg-slate-950 rounded-xl overflow-hidden border border-slate-800">
+            <thead>
+              <tr class="bg-slate-900/80 text-slate-400 border-b border-slate-800 font-semibold">
+                <th class="p-2.5">Parameter</th>
+                <th class="p-2.5 text-center">Manual Baseline</th>
+                <th class="p-2.5 text-center">Automated Platform</th>
+                <th class="p-2.5 text-center">Net Delta</th>
+                <th class="p-2.5 text-right">Annual Impact</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/60">
+              <tr>
+                <td class="p-2.5 font-medium text-slate-300">Scheduler & Director Labor</td>
+                <td class="p-2.5 text-center text-slate-400">220 hrs</td>
+                <td class="p-2.5 text-center text-emerald-400">35 hrs</td>
+                <td class="p-2.5 text-center text-indigo-300">185 hrs saved</td>
+                <td class="p-2.5 text-right font-bold text-emerald-400">+$8,325</td>
+              </tr>
+              <tr>
+                <td class="p-2.5 font-medium text-slate-300">Unused / Dropped Ice Slots</td>
+                <td class="p-2.5 text-center text-slate-400">8 slots</td>
+                <td class="p-2.5 text-center text-emerald-400">1 slot</td>
+                <td class="p-2.5 text-center text-indigo-300">7 recovered</td>
+                <td class="p-2.5 text-right font-bold text-emerald-400">+$3,150</td>
+              </tr>
+              <tr>
+                <td class="p-2.5 font-medium text-slate-300">Emergency Rescheduling & Ref Fees</td>
+                <td class="p-2.5 text-center text-slate-400">14 errors</td>
+                <td class="p-2.5 text-center text-emerald-400">2 errors</td>
+                <td class="p-2.5 text-center text-indigo-300">12 avoided</td>
+                <td class="p-2.5 text-right font-bold text-emerald-400">+$1,440</td>
+              </tr>
+              <tr class="bg-indigo-950/20 font-semibold">
+                <td class="p-2.5 text-indigo-300" colspan="4">Net Annual Financial Benefit</td>
+                <td class="p-2.5 text-right font-black text-emerald-400">+$6,915 / yr</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Master Schedule View Modal -->
+  <div id="masterScheduleModal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+      <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+            <i data-lucide="database" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-base text-white">Full EHF 2014 Platinum League Schedule (180 Games)</h3>
+            <p class="text-xs text-slate-400">Indexed Master Database • Season 2026-2027</p>
+          </div>
+        </div>
+        <button onclick="closeMasterScheduleModal()" class="text-slate-400 hover:text-white transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="p-4 border-b border-slate-800 bg-slate-950 flex gap-3">
+        <div class="relative flex-1">
+          <i data-lucide="search" class="w-4 h-4 absolute left-3 top-2.5 text-slate-500"></i>
+          <input type="text" id="masterSearchInput" oninput="renderMasterScheduleTable()" placeholder="Filter by team, rink, date..." class="w-full bg-slate-900 border border-slate-800 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
+        </div>
+      </div>
+
+      <div class="p-4 overflow-y-auto flex-1 custom-scrollbar">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="bg-slate-950 text-slate-400 border-b border-slate-800 font-semibold sticky top-0">
+              <th class="p-2">Date</th>
+              <th class="p-2">Time</th>
+              <th class="p-2">Visitor</th>
+              <th class="p-2">Home</th>
+              <th class="p-2">Location</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/60" id="masterTableBody">
+            <!-- Dynamically injected -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed bottom-6 right-6 bg-indigo-600 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-xs font-semibold transform translate-y-24 transition duration-300 z-50">
+    <i data-lucide="check-circle" class="w-4 h-4"></i>
+    <span id="toastMsg">Proposal dispatched successfully!</span>
+  </div>
+
+  <!-- Application Logic & Data -->
+  <script>
+    // 10 Teams in Division
+    const DIVISION_TEAMS = [
+      "Minuteman Flames Hogan",
+      "NorthStars - Giombetti",
+      "Bulldogs Hockey Club",
+      "IHC West 2014 - Warilla",
+      "Bay State Breakers 2014",
+      "Boston Jr. Terriers (Red)- Kelleher",
+      "Top Gun - Hayes",
+      "South Shore Kings",
+      "Seacoast Spartans",
+      "CJR 2014"
+    ];
+
+    // Crimson 2014 AAA Schedule (13 slots total)
+    const CRIMSON_SLOTS = [
+      { id: 1, date: "2026-09-19", displayDate: "Sep 19, 2026", time: "8:20 AM - 9:10 AM", team: "TBD", status: "open", rink: "Fessenden Ice Rink" },
+      { id: 2, date: "2026-09-26", displayDate: "Sep 26, 2026", time: "2:00 PM - 3:20 PM", team: "TBD", status: "open", rink: "Fessenden Ice Rink" },
+      { id: 3, date: "2026-09-27", displayDate: "Sep 27, 2026", time: "1:10 PM - 2:20 PM", team: "TBD", status: "open", rink: "Fessenden Ice Rink" },
+      { id: 4, date: "2026-10-03", displayDate: "Oct 3, 2026", time: "8:20 AM - 9:10 AM", team: "TBD", status: "open", rink: "Fessenden Ice Rink" },
+      { id: 5, date: "2026-10-24", displayDate: "Oct 24, 2026", time: "8:20 AM - 9:10 AM", team: "TBD", status: "open", rink: "Fessenden Ice Rink" },
+      { id: 6, date: "2026-10-25", displayDate: "Oct 25, 2026", time: "2:30 PM - 3:50 PM", team: "TBD", status: "open", rink: "Fessenden Ice Rink" },
+      { id: 7, date: "2026-10-31", displayDate: "Oct 31, 2026", time: "8:20 AM - 9:10 AM", team: "TBD", status: "open", rink: "Fessenden Ice Rink" },
+      { id: 8, date: "2026-11-01", displayDate: "Nov 1, 2026", time: "4:00 PM - 5:20 PM", team: "TBD", status: "open", rink: "Fessenden Ice Rink" },
+      { id: 9, date: "2026-11-08", displayDate: "Nov 8, 2026", time: "9:00 AM - 10:10 AM", team: "TBD", status: "open", rink: "Fessenden Ice Rink" },
+      { id: 10, date: "2026-11-15", displayDate: "Nov 15, 2026", time: "1:10 PM - 2:20 PM", team: "TBD", status: "open", rink: "Fessenden Ice Rink" },
+      { id: 11, date: "2026-11-21", displayDate: "Nov 21, 2026", time: "11:00 AM - 12:20 PM", team: "2014 White v. Yale", status: "booked", rink: "Fessenden Ice Rink" },
+      { id: 12, date: "2026-11-21", displayDate: "Nov 21, 2026", time: "3:20 PM - 4:40 PM", team: "2014 White v. Yale", status: "booked", rink: "Fessenden Ice Rink" },
+      { id: 13, date: "2026-11-29", displayDate: "Nov 29, 2026", time: "10:20 AM - 11:30 AM", team: "2014 White vs New England Stars", status: "booked", rink: "Fessenden Ice Rink" }
+    ];
+
+    // Pre-computed Master Availability Map from Algorithmic Engine (with 4h buffer logic)
+    const AVAILABILITY_DATA = {
+      1: { open: [], flexible: [], conflicted: DIVISION_TEAMS },
+      2: { open: ["Minuteman Flames Hogan", "NorthStars - Giombetti"], flexible: [], conflicted: ["Bulldogs Hockey Club", "IHC West 2014 - Warilla", "Bay State Breakers 2014", "Boston Jr. Terriers (Red)- Kelleher", "Top Gun - Hayes", "South Shore Kings", "Seacoast Spartans", "CJR 2014"] },
+      3: { open: ["Minuteman Flames Hogan", "Bulldogs Hockey Club", "IHC West 2014 - Warilla", "Bay State Breakers 2014", "Seacoast Spartans", "CJR 2014"], flexible: [], conflicted: ["NorthStars - Giombetti", "Boston Jr. Terriers (Red)- Kelleher", "Top Gun - Hayes", "South Shore Kings"] },
+      4: { open: ["Bulldogs Hockey Club", "South Shore Kings"], flexible: [], conflicted: ["Minuteman Flames Hogan", "NorthStars - Giombetti", "IHC West 2014 - Warilla", "Bay State Breakers 2014", "Boston Jr. Terriers (Red)- Kelleher", "Top Gun - Hayes", "Seacoast Spartans", "CJR 2014"] },
+      5: { open: ["Bay State Breakers 2014", "Top Gun - Hayes"], flexible: [], conflicted: ["Minuteman Flames Hogan", "NorthStars - Giombetti", "Bulldogs Hockey Club", "IHC West 2014 - Warilla", "Boston Jr. Terriers (Red)- Kelleher", "South Shore Kings", "Seacoast Spartans", "CJR 2014"] },
+      6: { 
+        open: ["IHC West 2014 - Warilla", "Boston Jr. Terriers (Red)- Kelleher", "Top Gun - Hayes", "CJR 2014"], 
+        flexible: [
+          { team: "South Shore Kings", priorGame: "9:00 AM @ Hobomock 2", restHours: "5.5h buffer" },
+          { team: "Bay State Breakers 2014", priorGame: "9:00 AM @ Hobomock 2", restHours: "5.5h buffer" }
+        ], 
+        conflicted: ["Minuteman Flames Hogan", "NorthStars - Giombetti", "Bulldogs Hockey Club", "Seacoast Spartans"] 
+      },
+      7: { open: [...DIVISION_TEAMS], flexible: [], conflicted: [] }, // Halloween open weekend
+      8: { open: ["IHC West 2014 - Warilla", "Bay State Breakers 2014", "Top Gun - Hayes", "CJR 2014"], flexible: [], conflicted: ["Minuteman Flames Hogan", "NorthStars - Giombetti", "Bulldogs Hockey Club", "Boston Jr. Terriers (Red)- Kelleher", "South Shore Kings", "Seacoast Spartans"] },
+      9: { open: ["NorthStars - Giombetti", "Bulldogs Hockey Club", "IHC West 2014 - Warilla", "Bay State Breakers 2014", "Boston Jr. Terriers (Red)- Kelleher", "Top Gun - Hayes", "Seacoast Spartans", "CJR 2014"], flexible: [], conflicted: ["Minuteman Flames Hogan", "South Shore Kings"] },
+      10: { open: ["NorthStars - Giombetti", "Bulldogs Hockey Club", "Top Gun - Hayes", "South Shore Kings"], flexible: [], conflicted: ["Minuteman Flames Hogan", "IHC West 2014 - Warilla", "Bay State Breakers 2014", "Boston Jr. Terriers (Red)- Kelleher", "Seacoast Spartans", "CJR 2014"] }
+    };
+
+    // Master EHF Sample Data for Matrix/Modal
+    const EHF_MASTER_GAMES = [
+      { date: "Sep 19, 2026", time: "10:35 AM", visitor: "IHC West 2014 - Warilla", home: "Top Gun - Hayes", loc: "Salem Ice Center" },
+      { date: "Sep 19, 2026", time: "11:00 AM", visitor: "Minuteman Flames Hogan", home: "CJR 2014", loc: "Edward L Bennett Rink" },
+      { date: "Sep 19, 2026", time: "12:00 PM", visitor: "Bay State Breakers 2014", home: "South Shore Kings", loc: "Foxboro Sports Center" },
+      { date: "Sep 19, 2026", time: "12:45 PM", visitor: "Boston Jr. Terriers (Red)- Kelleher", home: "NorthStars - Giombetti", loc: "NorthStar Ice Sports" },
+      { date: "Sep 19, 2026", time: "1:45 PM", visitor: "Minuteman Flames Hogan", home: "CJR 2014", loc: "Edward L Bennett Rink" },
+      { date: "Sep 19, 2026", time: "3:40 PM", visitor: "Bulldogs Hockey Club", home: "Seacoast Spartans", loc: "Rinks at Exeter 1" },
+      { date: "Sep 26, 2026", time: "11:00 AM", visitor: "Top Gun - Hayes", home: "CJR 2014", loc: "Edward L Bennett Rink" },
+      { date: "Sep 26, 2026", time: "1:40 PM", visitor: "South Shore Kings", home: "IHC West 2014 - Warilla", loc: "Skate 3 Red" },
+      { date: "Sep 26, 2026", time: "2:50 PM", visitor: "Bulldogs Hockey Club", home: "Bay State Breakers 2014", loc: "Bog 2" },
+      { date: "Sep 26, 2026", time: "7:40 PM", visitor: "Seacoast Spartans", home: "Boston Jr. Terriers (Red)- Kelleher", loc: "Canton Sportsplex" },
+      { date: "Oct 25, 2026", time: "9:00 AM", visitor: "South Shore Kings", home: "Bay State Breakers 2014", loc: "Hobomock 2" },
+      { date: "Oct 25, 2026", time: "12:25 PM", visitor: "Seacoast Spartans", home: "Bulldogs Hockey Club", loc: "Janas Memorial" },
+      { date: "Oct 25, 2026", time: "5:05 PM", visitor: "Minuteman Flames Hogan", home: "NorthStars - Giombetti", loc: "NorthStar Ice Sports" }
+    ];
+
+    let currentSelectedSlotId = 2; // Default to Slot #2 (Sep 26)
+    let currentFilter = 'all';
+
+    function initApp() {
+      renderSlots();
+      selectSlot(currentSelectedSlotId);
+      renderMasterScheduleTable();
+      lucide.createIcons();
+    }
+
+    function filterSlots(type) {
+      currentFilter = type;
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        if (btn.dataset.filter === type) {
+          btn.classList.add('bg-indigo-600', 'text-white');
+          btn.classList.remove('bg-slate-800', 'text-slate-300');
+        } else {
+          btn.classList.remove('bg-indigo-600', 'text-white');
+          btn.classList.add('bg-slate-800', 'text-slate-300');
+        }
+      });
+      renderSlots();
+    }
+
+    function renderSlots() {
+      const container = document.getElementById('slotList');
+      container.innerHTML = '';
+
+      const filtered = CRIMSON_SLOTS.filter(s => {
+        if (currentFilter === 'tbd') return s.status === 'open';
+        if (currentFilter === 'booked') return s.status === 'booked';
+        return true;
+      });
+
+      filtered.forEach(slot => {
+        const isSelected = slot.id === currentSelectedSlotId;
+        const avail = AVAILABILITY_DATA[slot.id] || { open: [], flexible: [] };
+        const totalMatches = avail.open.length + avail.flexible.length;
+
+        const card = document.createElement('div');
+        card.className = `p-3 rounded-xl border transition cursor-pointer ${
+          isSelected 
+            ? 'bg-indigo-950/40 border-indigo-500 shadow-md shadow-indigo-950/50' 
+            : 'bg-slate-900/60 border-slate-800/80 hover:border-slate-700 hover:bg-slate-900'
+        }`;
+        card.onclick = () => selectSlot(slot.id);
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-[11px] font-bold ${isSelected ? 'text-indigo-400' : 'text-slate-400'}">Slot #${slot.id}</span>
+            ${slot.status === 'open' 
+              ? `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">${totalMatches} Matches</span>`
+              : `<span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Booked</span>`
+            }
+          </div>
+          <div class="text-xs font-bold text-white mb-0.5">${slot.displayDate}</div>
+          <div class="text-[11px] text-slate-300 flex items-center gap-1.5 mb-1.5">
+            <i data-lucide="clock" class="w-3 h-3 text-slate-400"></i> ${slot.time}
+          </div>
+          <div class="text-[11px] text-slate-400 flex items-center justify-between border-t border-slate-800/60 pt-1.5 mt-1">
+            <span>${slot.team === 'TBD' ? '<span class="text-amber-400 font-medium">Needs Opponent</span>' : `<span class="text-slate-300 font-medium">${slot.team}</span>`}</span>
+            <span class="text-[10px] text-slate-500">${slot.rink.split(' ')[0]}</span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+      lucide.createIcons();
+    }
+
+    function selectSlot(slotId) {
+      currentSelectedSlotId = slotId;
+      renderSlots();
+
+      const slot = CRIMSON_SLOTS.find(s => s.id === slotId);
+      if (!slot) return;
+
+      document.getElementById('activeSlotBadge').innerText = `Slot #${slot.id} Selected`;
+      document.getElementById('activeSlotDate').innerText = slot.displayDate;
+      document.getElementById('activeSlotTitle').innerHTML = `
+        ${slot.time} @ ${slot.rink}
+        ${slot.status === 'booked' ? '<span class="text-xs font-semibold px-2 py-1 rounded bg-slate-800 text-slate-300 ml-2">Booked: ' + slot.team + '</span>' : ''}
+      `;
+      document.getElementById('heatmapDate').innerText = slot.displayDate;
+
+      const avail = AVAILABILITY_DATA[slot.id] || { open: [], flexible: [], conflicted: DIVISION_TEAMS };
+      
+      document.getElementById('countFullyOpen').innerText = avail.open.length;
+      document.getElementById('countFlexible').innerText = avail.flexible.length;
+      document.getElementById('countConflicted').innerText = avail.conflicted.length;
+
+      renderOpponentCards(avail, slot);
+      renderConflictMatrix(slot, avail);
+    }
+
+    function renderOpponentCards(avail, slot) {
+      const container = document.getElementById('opponentCards');
+      container.innerHTML = '';
+
+      if (avail.open.length === 0 && avail.flexible.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-2 bg-slate-900/40 border border-slate-800 rounded-xl p-8 text-center">
+            <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center mx-auto mb-3 text-slate-400">
+              <i data-lucide="calendar-x" class="w-6 h-6"></i>
+            </div>
+            <h4 class="text-sm font-bold text-white">No Fully Available Opponents</h4>
+            <p class="text-xs text-slate-400 mt-1 max-w-sm mx-auto">All 10 EHF Platinum teams have existing league commitments on this date. Consider offering a flexible swap or booking an exhibition opponent.</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      // 1. Fully Available Opponents
+      avail.open.forEach(team => {
+        const card = document.createElement('div');
+        card.className = "bg-slate-900/80 border border-emerald-500/30 rounded-xl p-4 flex flex-col justify-between hover:border-emerald-500/60 transition shadow-lg shadow-emerald-950/20";
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
+                <i data-lucide="check" class="w-3 h-3"></i> 100% Fully Available
+              </span>
+              <span class="text-xs font-semibold text-slate-400">Rank #1 Match</span>
+            </div>
+            <h4 class="text-sm font-bold text-white mb-1">${team}</h4>
+            <p class="text-xs text-slate-400 mb-3">Zero EHF games scheduled all day. Optimal competitive parity match.</p>
+          </div>
+          <div class="pt-3 border-t border-slate-800 flex items-center justify-between">
+            <span class="text-[11px] text-slate-400 flex items-center gap-1"><i data-lucide="map-pin" class="w-3 h-3 text-indigo-400"></i> Fessenden Ice Rink</span>
+            <button onclick="openProposalModal('${team}', '${slot.displayDate}', '${slot.time}')" class="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-bold text-white transition flex items-center gap-1.5">
+              <i data-lucide="send" class="w-3 h-3"></i> Send Invite
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      // 2. Flexible Same-Day Opponents (4h buffer rule)
+      avail.flexible.forEach(item => {
+        const card = document.createElement('div');
+        card.className = "bg-slate-900/80 border border-amber-500/30 rounded-xl p-4 flex flex-col justify-between hover:border-amber-500/60 transition shadow-lg shadow-amber-950/20";
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1">
+                <i data-lucide="clock" class="w-3 h-3"></i> Same-Day Feasible (&ge;4h)
+              </span>
+              <span class="text-xs font-semibold text-amber-400">${item.restHours}</span>
+            </div>
+            <h4 class="text-sm font-bold text-white mb-1">${item.team}</h4>
+            <p class="text-xs text-slate-400 mb-1.5">Plays prior game: <span class="text-slate-300 font-medium">${item.priorGame}</span></p>
+            <p class="text-[11px] text-emerald-400 flex items-center gap-1"><i data-lucide="shield-check" class="w-3 h-3"></i> Complies with league safety & travel buffer</p>
+          </div>
+          <div class="pt-3 border-t border-slate-800 flex items-center justify-between mt-3">
+            <span class="text-[11px] text-slate-400">Rest gap: ${item.restHours}</span>
+            <button onclick="openProposalModal('${item.team}', '${slot.displayDate}', '${slot.time}')" class="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-xs font-bold text-slate-950 transition flex items-center gap-1.5">
+              <i data-lucide="send" class="w-3 h-3"></i> Propose Match
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      lucide.createIcons();
+    }
+
+    function renderConflictMatrix(slot, avail) {
+      const tbody = document.getElementById('matrixTableBody');
+      tbody.innerHTML = '';
+
+      DIVISION_TEAMS.forEach(team => {
+        const isOpen = avail.open.includes(team);
+        const flexItem = avail.flexible.find(f => f.team === team);
+        const isConflicted = avail.conflicted.includes(team);
+
+        let statusBadge = '';
+        let scheduledText = 'No games scheduled';
+        let bufferText = '<span class="text-emerald-400 font-semibold">&ge; 4.0h (100% Free)</span>';
+        let actionBtn = `<button onclick="openProposalModal('${team}', '${slot.displayDate}', '${slot.time}')" class="text-xs font-semibold text-indigo-400 hover:text-indigo-300">Invite</button>`;
+
+        if (isOpen) {
+          statusBadge = '<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold border border-emerald-500/30">Fully Available</span>';
+        } else if (flexItem) {
+          statusBadge = '<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-bold border border-amber-500/30">Flexible (&ge;4h)</span>';
+          scheduledText = flexItem.priorGame;
+          bufferText = `<span class="text-amber-300 font-semibold">${flexItem.restHours}</span>`;
+          actionBtn = `<button onclick="openProposalModal('${team}', '${slot.displayDate}', '${slot.time}')" class="text-xs font-semibold text-amber-400 hover:text-amber-300">Propose</button>`;
+        } else {
+          statusBadge = '<span class="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-400 text-[10px] font-bold border border-rose-500/30">Conflicted</span>';
+          scheduledText = 'Active EHF Platinum Game';
+          bufferText = '<span class="text-rose-400 font-semibold">&lt; 4.0h / Slot Conflict</span>';
+          actionBtn = `<span class="text-slate-600 text-xs">Locked</span>`;
+        }
+
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-900/40 transition";
+        tr.innerHTML = `
+          <td class="py-2.5 px-3 font-medium text-slate-200">${team}</td>
+          <td class="py-2.5 px-3">${statusBadge}</td>
+          <td class="py-2.5 px-3 text-slate-400">${scheduledText}</td>
+          <td class="py-2.5 px-3">${bufferText}</td>
+          <td class="py-2.5 px-3 text-right">${actionBtn}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderMasterScheduleTable() {
+      const query = (document.getElementById('masterSearchInput')?.value || '').toLowerCase();
+      const tbody = document.getElementById('masterTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      const filtered = EHF_MASTER_GAMES.filter(g => 
+        g.visitor.toLowerCase().includes(query) ||
+        g.home.toLowerCase().includes(query) ||
+        g.loc.toLowerCase().includes(query) ||
+        g.date.toLowerCase().includes(query)
+      );
+
+      filtered.forEach(game => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-950/60 border-b border-slate-800/40";
+        tr.innerHTML = `
+          <td class="p-2 font-medium text-slate-300">${game.date}</td>
+          <td class="p-2 text-slate-400 font-mono">${game.time}</td>
+          <td class="p-2 text-slate-200">${game.visitor}</td>
+          <td class="p-2 text-slate-200">${game.home}</td>
+          <td class="p-2 text-slate-400">${game.loc}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Modal Control Functions
+    function openProposalModal(team, date, time) {
+      document.getElementById('modalOpponentName').innerText = team;
+      document.getElementById('modalSlotTime').innerText = `${date} @ ${time}`;
+      document.getElementById('proposalModal').classList.remove('hidden');
+    }
+    function closeProposalModal() {
+      document.getElementById('proposalModal').classList.add('hidden');
+    }
+    function confirmProposalSend() {
+      closeProposalModal();
+      const toast = document.getElementById('toast');
+      toast.classList.remove('translate-y-24');
+      setTimeout(() => {
+        toast.classList.add('translate-y-24');
+      }, 3500);
+    }
+
+    function openBusinessCaseModal() {
+      document.getElementById('businessCaseModal').classList.remove('hidden');
+    }
+    function closeBusinessCaseModal() {
+      document.getElementById('businessCaseModal').classList.add('hidden');
+    }
+
+    function openMasterScheduleModal() {
+      document.getElementById('masterScheduleModal').classList.remove('hidden');
+      renderMasterScheduleTable();
+    }
+    function closeMasterScheduleModal() {
+      document.getElementById('masterScheduleModal').classList.add('hidden');
+    }
+
+    // Launch App on load
+    window.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+</html>
