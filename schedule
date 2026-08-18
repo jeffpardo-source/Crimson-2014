@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PuckMatch AI • Youth Hockey Scheduling & MHR Intelligence Platform</title>
+  <title>PuckMatch AI • Youth Hockey Scheduling, Contacts & MHR Intelligence</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons -->
@@ -33,33 +33,32 @@
             <i data-lucide="award" class="w-3 h-3 text-amber-600"></i> MHR Verified
           </span>
         </div>
-        <p class="text-xs text-slate-500 font-medium">Algorithmic Matchmaking, Schedule Manager & MYHockey Rankings Intelligence</p>
+        <p class="text-xs text-slate-500 font-medium">Algorithmic Matchmaker, Working Schedule & Coach Directory Hub</p>
       </div>
     </div>
 
     <!-- Navigation Tabs -->
     <div class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 text-xs font-bold">
-      <button onclick="switchView('matchmaker')" id="navMatchmaker" class="nav-tab active flex items-center gap-2 px-4 py-2 rounded-lg bg-white text-indigo-700 shadow-xs transition">
+      <button onclick="switchView('matchmaker')" id="navMatchmaker" class="nav-tab active flex items-center gap-2 px-3.5 py-2 rounded-lg bg-white text-indigo-700 shadow-xs transition">
         <i data-lucide="sparkles" class="w-4 h-4 text-indigo-600"></i> Opponent Matchmaker
       </button>
-      <button onclick="switchView('workingSchedule')" id="navWorkingSchedule" class="nav-tab flex items-center gap-2 px-4 py-2 rounded-lg text-slate-600 hover:text-slate-900 transition">
+      <button onclick="switchView('workingSchedule')" id="navWorkingSchedule" class="nav-tab flex items-center gap-2 px-3.5 py-2 rounded-lg text-slate-600 hover:text-slate-900 transition">
         <i data-lucide="calendar-check" class="w-4 h-4 text-slate-500"></i> Working Schedule
         <span class="text-[10px] px-2 py-0.5 rounded-full bg-rose-100 text-rose-700 font-extrabold" id="tabOpenBadge">10 TBD</span>
       </button>
+      <button onclick="switchView('contactsHub')" id="navContactsHub" class="nav-tab flex items-center gap-2 px-3.5 py-2 rounded-lg text-slate-600 hover:text-slate-900 transition">
+        <i data-lucide="users" class="w-4 h-4 text-slate-500"></i> Contacts Directory
+        <span class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 font-extrabold border border-indigo-200" id="tabContactsBadge">60 Clubs</span>
+      </button>
     </div>
 
-    <!-- Active Team Profile with MHR Rating -->
+    <!-- Active Profile -->
     <div class="flex items-center gap-4">
       <div class="hidden xl:flex items-center gap-3 text-xs">
         <div class="bg-amber-50 border border-amber-200/80 rounded-xl px-3.5 py-1.5 flex items-center gap-2 shadow-xs">
           <i data-lucide="trending-up" class="w-3.5 h-3.5 text-amber-600"></i>
           <span class="text-slate-500 font-medium">Crimson MHR Rating:</span>
-          <span class="font-black text-amber-800">93.85 (#8 US)</span>
-        </div>
-        <div class="bg-slate-100 border border-slate-200/80 rounded-xl px-3.5 py-1.5 flex items-center gap-2 shadow-xs">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span class="text-slate-500 font-medium">Rest Buffer:</span>
-          <span class="font-bold text-slate-800">&ge; 4.0 hrs</span>
+          <span class="font-black text-amber-800">86.0 (Tier 1 AAA)</span>
         </div>
       </div>
 
@@ -97,14 +96,13 @@
           </div>
         </div>
 
-        <!-- Slots List Container -->
         <div class="flex-1 overflow-y-auto custom-scrollbar p-3.5 space-y-2.5 bg-slate-50/30" id="slotList"></div>
       </aside>
 
       <!-- Center & Right: Matchmaking Engine -->
       <main class="flex-1 flex flex-col bg-slate-100/60 overflow-y-auto custom-scrollbar">
         
-        <!-- Slot Banner / Active Header -->
+        <!-- Slot Banner -->
         <div class="p-6 border-b border-slate-200 bg-white flex flex-wrap items-center justify-between gap-4 shadow-xs">
           <div>
             <div class="flex items-center gap-2.5 mb-1.5">
@@ -117,9 +115,9 @@
           </div>
 
           <div class="flex items-center gap-2.5">
-            <button onclick="openMHRLeaderboardModal()" class="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-xs font-bold text-amber-800 border border-amber-200 shadow-xs transition">
-              <i data-lucide="award" class="w-4 h-4 text-amber-600"></i>
-              MHR Division Standings
+            <button onclick="switchView('contactsHub')" class="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-xs font-bold text-indigo-700 border border-indigo-200 shadow-xs transition">
+              <i data-lucide="users" class="w-4 h-4 text-indigo-600"></i>
+              Open Coach Directory
             </button>
             <button onclick="openBusinessCaseModal()" class="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 border border-slate-200 shadow-xs transition">
               <i data-lucide="trending-up" class="w-4 h-4 text-emerald-600"></i>
@@ -132,10 +130,8 @@
           </div>
         </div>
 
-        <!-- Algorithmic Engine Content -->
         <div class="p-6 space-y-6 flex-1 max-w-7xl w-full mx-auto">
-          
-          <!-- Algorithm Insights Grid -->
+          <!-- Insights Grid -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="bg-white border border-slate-200/90 p-4.5 rounded-2xl flex items-start gap-4 shadow-xs">
               <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center shrink-0">
@@ -171,38 +167,30 @@
             </div>
           </div>
 
-          <!-- Matching Opponents Section with MHR Parity Badges -->
+          <!-- Matching Opponents Cards -->
           <div>
-            <div class="flex flex-wrap items-center justify-between gap-3 mb-3.5">
+            <div class="flex items-center justify-between mb-3.5">
               <div>
                 <h3 class="text-base font-extrabold text-slate-900 flex items-center gap-2">
                   <i data-lucide="sparkles" class="w-4 h-4 text-indigo-600"></i>
-                  Ranked Feasible Opponent Matches (MHR Integrated)
+                  Ranked Feasible Opponents
                 </h3>
-                <p class="text-xs text-slate-500">Prioritized by MYHockey Rankings rating closeness and rest buffers</p>
-              </div>
-
-              <!-- MHR Parity Filter Chips -->
-              <div class="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-slate-200 text-xs">
-                <span class="text-[11px] text-slate-400 font-semibold px-2">Parity Filter:</span>
-                <button onclick="setParityFilter('all')" class="parity-btn active px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-bold" data-parity="all">All</button>
-                <button onclick="setParityFilter('tight')" class="parity-btn px-2.5 py-1 rounded-lg text-slate-600 hover:text-slate-900 font-medium" data-parity="tight">Tight (&Delta; &lt; 2.0)</button>
-                <button onclick="setParityFilter('moderate')" class="parity-btn px-2.5 py-1 rounded-lg text-slate-600 hover:text-slate-900 font-medium" data-parity="moderate">Moderate (&Delta; 2.0-4.0)</button>
+                <p class="text-xs text-slate-500">Direct coach contact integrated for instant outreach</p>
               </div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4" id="opponentCards"></div>
           </div>
 
-          <!-- League Conflict & MHR Rating Matrix -->
+          <!-- Conflict Matrix -->
           <div class="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-xs">
             <div class="flex items-center justify-between mb-4">
               <div>
                 <h4 class="text-sm font-extrabold text-slate-900 flex items-center gap-2">
                   <i data-lucide="activity" class="w-4 h-4 text-indigo-600"></i>
-                  Division Matrix & MHR Rating Comparison (<span id="heatmapDate" class="text-indigo-600">Sep 19, 2026</span>)
+                  Division Matrix & Availability Status (<span id="heatmapDate" class="text-indigo-600">Sep 19, 2026</span>)
                 </h4>
-                <p class="text-xs text-slate-500">Real-time status and MHR differentials for all 10 teams in the 2014 Platinum Division</p>
+                <p class="text-xs text-slate-500">Live checks for all 10 teams in the 2014 Platinum Division</p>
               </div>
               <span class="text-xs bg-slate-100 text-slate-700 font-bold px-3 py-1 rounded-full border border-slate-200">10 Teams Monitored</span>
             </div>
@@ -212,10 +200,10 @@
                 <thead>
                   <tr class="border-b border-slate-200 text-slate-500 font-bold bg-slate-50">
                     <th class="py-3 px-4">Team Name</th>
-                    <th class="py-3 px-4">MHR Rating & Rank</th>
-                    <th class="py-3 px-4">Parity &Delta; (vs Crimson)</th>
+                    <th class="py-3 px-4">Rating / Org</th>
                     <th class="py-3 px-4">Date Availability</th>
                     <th class="py-3 px-4">Buffer / Rest Status</th>
+                    <th class="py-3 px-4">Primary Contact</th>
                     <th class="py-3 px-4 text-right">Quick Action</th>
                   </tr>
                 </thead>
@@ -227,7 +215,7 @@
       </main>
     </div>
 
-    <!-- VIEW 2: WORKING SCHEDULE EDITOR (CRIMSON 2014 AAA 26/27) -->
+    <!-- VIEW 2: WORKING SCHEDULE EDITOR -->
     <div id="viewWorkingSchedule" class="hidden flex-1 flex flex-col bg-slate-100/60 overflow-y-auto custom-scrollbar">
       <div class="p-6 border-b border-slate-200 bg-white shadow-xs">
         <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
@@ -237,7 +225,7 @@
               <span class="text-xs text-slate-500 font-medium">Master Working Schedule</span>
             </div>
             <h1 class="text-2xl font-black text-slate-900">Dynamic Season Working Schedule</h1>
-            <p class="text-xs text-slate-500 mt-0.5">Edit opponents, assign Home/Away status, and review MHR Match Quality scores.</p>
+            <p class="text-xs text-slate-500 mt-0.5">Edit opponents, assign Home/Away status, and review coach details in real time.</p>
           </div>
 
           <div class="flex items-center gap-3">
@@ -253,10 +241,8 @@
         </div>
       </div>
 
-      <!-- Working Schedule Table Grid -->
       <div class="p-6 max-w-7xl w-full mx-auto flex-1 space-y-6">
-        
-        <!-- Summary Stats Card -->
+        <!-- Summary Cards -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
             <div>
@@ -287,23 +273,22 @@
           </div>
           <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
             <div>
-              <div class="text-xs font-bold text-slate-500">Avg Opponent MHR</div>
-              <div class="text-xl font-black text-amber-700 mt-1">92.40 Rating</div>
+              <div class="text-xs font-bold text-slate-500">Directory Contacts</div>
+              <div class="text-2xl font-black text-indigo-700 mt-0.5">60 Clubs</div>
             </div>
-            <div class="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600">
-              <i data-lucide="award" class="w-5 h-5"></i>
+            <div class="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600">
+              <i data-lucide="users" class="w-5 h-5"></i>
             </div>
           </div>
         </div>
 
-        <!-- Interactive Schedule Table with MHR columns -->
         <div class="bg-white border border-slate-200 rounded-2xl shadow-xs overflow-hidden">
           <div class="p-4 border-b border-slate-100 bg-slate-50/70 flex items-center justify-between">
             <h3 class="font-extrabold text-sm text-slate-900 flex items-center gap-2">
               <i data-lucide="table" class="w-4 h-4 text-indigo-600"></i>
               Season Ice Slots & Opponent Assignments
             </h3>
-            <span class="text-xs text-slate-500 font-medium">Select opponent from dropdown or lock via matchmaker</span>
+            <span class="text-xs text-slate-500 font-medium">Auto-saved to your browser memory</span>
           </div>
 
           <div class="overflow-x-auto">
@@ -315,8 +300,8 @@
                   <th class="py-3 px-4">Date</th>
                   <th class="py-3 px-4">Time</th>
                   <th class="py-3 px-4">Location / Venue</th>
-                  <th class="py-3 px-4 min-w-[230px]">Locked Opponent</th>
-                  <th class="py-3 px-4">MHR Rating & Parity</th>
+                  <th class="py-3 px-4 min-w-[240px]">Locked Opponent</th>
+                  <th class="py-3 px-4">Contact Info</th>
                   <th class="py-3 px-4 text-center">Status</th>
                   <th class="py-3 px-4 text-right">Quick Actions</th>
                 </tr>
@@ -325,92 +310,147 @@
             </table>
           </div>
         </div>
+      </div>
+    </div>
 
+    <!-- VIEW 3: CONTACTS & OUTREACH DIRECTORY -->
+    <div id="viewContactsHub" class="hidden flex-1 flex flex-col bg-slate-100/60 overflow-y-auto custom-scrollbar">
+      <div class="p-6 border-b border-slate-200 bg-white shadow-xs">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2.5 mb-1">
+              <span class="text-xs font-extrabold px-3 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">COACH & SCHEDULER DIRECTORY</span>
+              <span class="text-xs text-slate-500 font-medium">60 Clubs Indexed from Contacts Sheet</span>
+            </div>
+            <h1 class="text-2xl font-black text-slate-900">League Contacts & Outreach Tracking</h1>
+            <p class="text-xs text-slate-500 mt-0.5">Quickly access head coach cells, assistant coaches, team managers, and past text/email outreach notes.</p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <button onclick="exportContactsCSV()" class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 border border-slate-200 shadow-xs transition">
+              <i data-lucide="download" class="w-4 h-4 text-indigo-600"></i>
+              Export Contacts (CSV)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6 max-w-7xl w-full mx-auto flex-1 space-y-6">
+        <!-- Filter and Search Header -->
+        <div class="bg-white p-4.5 rounded-2xl border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-4">
+          <div class="relative flex-1 min-w-[280px]">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400"></i>
+            <input type="text" id="contactSearchInput" oninput="renderContactsGrid()" placeholder="Search by club, coach name, rink town, email, or league..." class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs text-slate-900 font-medium focus:outline-none focus:border-indigo-600 focus:bg-white transition shadow-2xs">
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <select id="contactOrgFilter" onchange="renderContactsGrid()" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-700 font-semibold focus:outline-none focus:border-indigo-600">
+              <option value="ALL">All Leagues / Orgs</option>
+              <option value="EHF - Platinum">EHF Platinum</option>
+              <option value="E9">E9 (Elite 9)</option>
+              <option value="EHF - Elite">EHF Elite</option>
+              <option value="EHF - Upper Gold">EHF Upper Gold</option>
+              <option value="THF">THF (Tier 1)</option>
+              <option value="Independent">Independent</option>
+            </select>
+
+            <select id="contactResponsiveFilter" onchange="renderContactsGrid()" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-700 font-semibold focus:outline-none focus:border-indigo-600">
+              <option value="ALL">All Response Statuses</option>
+              <option value="YES">Responsive (Yes)</option>
+              <option value="CURTIS">Curtis Priority</option>
+              <option value="AYRTON">Ayrton Priority</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Contacts Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="contactsCardsGrid"></div>
       </div>
     </div>
 
   </div>
 
-  <!-- MHR TEAM INTELLIGENCE DOSSIER MODAL -->
-  <div id="mhrDossierModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white border border-slate-200 rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-200">
+  <!-- CONTACT PROFILE MODAL -->
+  <div id="contactModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white border border-slate-200 rounded-3xl max-w-xl w-full p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto custom-scrollbar">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600">
-            <i data-lucide="award" class="w-5 h-5"></i>
+          <div class="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600">
+            <i data-lucide="user" class="w-5 h-5"></i>
           </div>
           <div>
-            <h3 class="font-extrabold text-lg text-slate-900" id="dossierTeamName">Team Dossier</h3>
-            <p class="text-xs text-slate-500 font-medium">MYHockeyRankings.com Profile & Intelligence</p>
+            <h3 class="font-extrabold text-lg text-slate-900" id="modalClubName">Club Name</h3>
+            <p class="text-xs text-slate-500 font-medium" id="modalClubOrg">League / Division</p>
           </div>
         </div>
-        <button onclick="closeMHRDossierModal()" class="text-slate-400 hover:text-slate-700 transition">
+        <button onclick="closeContactModal()" class="text-slate-400 hover:text-slate-700 transition">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
-      <div class="grid grid-cols-3 gap-3 text-center">
-        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/80">
-          <div class="text-[11px] text-slate-500 font-medium">MHR Rating</div>
-          <div class="text-lg font-black text-amber-700 mt-0.5" id="dossierRating">94.10</div>
+      <div class="grid grid-cols-2 gap-3 text-xs">
+        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/80">
+          <span class="text-slate-400 text-[11px] font-semibold">Home Rink / Location</span>
+          <div class="font-bold text-slate-800 mt-0.5" id="modalClubLoc">Bedford, MA - Edge</div>
         </div>
-        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/80">
-          <div class="text-[11px] text-slate-500 font-medium">National Rank</div>
-          <div class="text-lg font-black text-slate-900 mt-0.5" id="dossierRank">#6 US</div>
-        </div>
-        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/80">
-          <div class="text-[11px] text-slate-500 font-medium">Parity Delta</div>
-          <div class="text-lg font-black text-emerald-600 mt-0.5" id="dossierDelta">+0.25</div>
+        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/80">
+          <span class="text-slate-400 text-[11px] font-semibold">Estimated MHR Rating</span>
+          <div class="font-black text-amber-800 mt-0.5" id="modalClubRating">86.0 Rating</div>
         </div>
       </div>
 
-      <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/80 space-y-2.5 text-xs">
-        <div class="flex justify-between"><span class="text-slate-500 font-medium">Season Record:</span> <span class="font-bold text-slate-900" id="dossierRecord">18-4-2 (81.8% PTS)</span></div>
-        <div class="flex justify-between"><span class="text-slate-500 font-medium">Strength of Schedule (SOS):</span> <span class="font-bold text-slate-800" id="dossierSOS">92.45 Rating</span></div>
-        <div class="flex justify-between"><span class="text-slate-500 font-medium">Avg Goal Differential (AGD):</span> <span class="font-bold text-slate-800" id="dossierAGD">+2.15 Goals/Game</span></div>
-        <div class="flex justify-between border-t border-slate-200 pt-2"><span class="text-slate-500 font-medium">Parity Quality:</span> <span class="text-emerald-700 font-bold" id="dossierParityClass">5-Star Elite Development Matchup</span></div>
+      <!-- Staff Profiles -->
+      <div class="space-y-3 text-xs">
+        <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-2xs space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] uppercase tracking-wider font-extrabold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">Head Coach</span>
+            <span class="font-bold text-slate-900" id="modalCoachName">-</span>
+          </div>
+          <div class="flex items-center justify-between pt-1 border-t border-slate-100" id="modalCoachContactRow">
+            <span class="text-slate-500 font-medium" id="modalCoachEmail">-</span>
+            <span class="font-bold text-slate-800" id="modalCoachCell">-</span>
+          </div>
+        </div>
+
+        <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-2xs space-y-1.5" id="modalAsstCoachSection">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] uppercase tracking-wider font-extrabold text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">Asst Coach</span>
+            <span class="font-bold text-slate-900" id="modalAsstCoachName">-</span>
+          </div>
+          <div class="flex items-center justify-between pt-1 border-t border-slate-100" id="modalAsstCoachContactRow">
+            <span class="text-slate-500 font-medium" id="modalAsstCoachEmail">-</span>
+            <span class="font-bold text-slate-800" id="modalAsstCoachCell">-</span>
+          </div>
+        </div>
+
+        <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-2xs space-y-1.5" id="modalManagerSection">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] uppercase tracking-wider font-extrabold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Team Manager</span>
+            <span class="font-bold text-slate-900" id="modalManagerName">-</span>
+          </div>
+          <div class="flex items-center justify-between pt-1 border-t border-slate-100" id="modalManagerContactRow">
+            <span class="text-slate-500 font-medium" id="modalManagerEmail">-</span>
+            <span class="font-bold text-slate-800" id="modalManagerCell">-</span>
+          </div>
+        </div>
       </div>
 
-      <button onclick="closeMHRDossierModal()" class="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-xs font-bold text-white transition">
-        Close Dossier
+      <!-- Notes and Outreach History -->
+      <div class="bg-amber-50/50 p-4 rounded-2xl border border-amber-200/80 text-xs space-y-1.5">
+        <span class="font-extrabold text-amber-900 flex items-center gap-1.5">
+          <i data-lucide="file-text" class="w-3.5 h-3.5 text-amber-700"></i> Outreach Log & Notes
+        </span>
+        <p class="text-slate-700 whitespace-pre-line leading-relaxed" id="modalNotesText">No notes logged.</p>
+      </div>
+
+      <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/80 text-xs" id="modalGamesSection">
+        <span class="text-slate-400 text-[11px] font-semibold">Scheduled / Proposed Games</span>
+        <div class="font-bold text-indigo-700 mt-0.5 whitespace-pre-line" id="modalGamesText">-</div>
+      </div>
+
+      <button onclick="closeContactModal()" class="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-xs font-bold text-white transition">
+        Close Profile
       </button>
-    </div>
-  </div>
-
-  <!-- MHR DIVISION LEADERBOARD MODAL -->
-  <div id="mhrLeaderboardModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white border border-slate-200 rounded-3xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl animate-in fade-in zoom-in-95 duration-200">
-      <div class="p-5 border-b border-slate-100 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600">
-            <i data-lucide="award" class="w-5 h-5"></i>
-          </div>
-          <div>
-            <h3 class="font-extrabold text-base text-slate-900">MYHockey Rankings • 2014 Platinum Standings</h3>
-            <p class="text-xs text-slate-500">Live Rating & Strength Indexes from MYHockeyRankings.com</p>
-          </div>
-        </div>
-        <button onclick="closeMHRLeaderboardModal()" class="text-slate-400 hover:text-slate-700 transition">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
-      </div>
-
-      <div class="p-4 overflow-y-auto flex-1 custom-scrollbar">
-        <table class="w-full text-left text-xs border-collapse">
-          <thead>
-            <tr class="bg-slate-100/80 text-slate-600 border-b border-slate-200 font-bold sticky top-0">
-              <th class="p-2.5">Nat'l Rank</th>
-              <th class="p-2.5">Team Name</th>
-              <th class="p-2.5 text-center">MHR Rating</th>
-              <th class="p-2.5 text-center">Record (W-L-T)</th>
-              <th class="p-2.5 text-center">AGD</th>
-              <th class="p-2.5 text-center">SOS</th>
-              <th class="p-2.5 text-right">&Delta; vs Crimson</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-100 bg-white" id="mhrLeaderboardTableBody"></tbody>
-        </table>
-      </div>
     </div>
   </div>
 
@@ -433,11 +473,10 @@
       </div>
 
       <div class="bg-slate-50 p-4.5 rounded-2xl border border-slate-200/80 text-xs space-y-3">
-        <div class="flex justify-between"><span class="text-slate-500 font-medium">Host Club:</span> <span class="font-bold text-slate-900">Crimson 2014 AAA (MHR: 93.85)</span></div>
-        <div class="flex justify-between"><span class="text-slate-500 font-medium">Opponent to Lock:</span> <span class="font-bold text-indigo-600 text-sm" id="modalOpponentName">Minuteman Flames</span></div>
-        <div class="flex justify-between"><span class="text-slate-500 font-medium">Target Date & Slot:</span> <span class="font-semibold text-slate-800" id="modalSlotTime">Sep 26, 2026 @ 2:00 PM</span></div>
+        <div class="flex justify-between"><span class="text-slate-500 font-medium">Host Club:</span> <span class="font-bold text-slate-900">Crimson 2014 AAA</span></div>
+        <div class="flex justify-between"><span class="text-slate-500 font-medium">Opponent:</span> <span class="font-bold text-indigo-600 text-sm" id="modalOpponentName">Minuteman Flames</span></div>
+        <div class="flex justify-between"><span class="text-slate-500 font-medium">Date & Slot:</span> <span class="font-semibold text-slate-800" id="modalSlotTime">Sep 26, 2026 @ 2:00 PM</span></div>
         <div class="flex justify-between"><span class="text-slate-500 font-medium">Venue:</span> <span class="font-semibold text-slate-800">Fessenden Ice Rink</span></div>
-        <div class="flex justify-between border-t border-slate-200 pt-2.5"><span class="text-slate-500 font-medium">MHR Match Quality:</span> <span class="text-emerald-700 font-bold" id="modalMHRRatingSpread">High Parity Match (&Delta; 0.25)</span></div>
       </div>
 
       <div class="flex gap-3 pt-2">
@@ -445,6 +484,50 @@
         <button onclick="confirmProposalAndLock()" class="flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-xs font-bold text-white shadow-md shadow-emerald-200 transition flex items-center justify-center gap-2">
           <i data-lucide="lock" class="w-4 h-4"></i> Lock Into Schedule
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Master Schedule View Modal -->
+  <div id="masterScheduleModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white border border-slate-200 rounded-3xl max-w-5xl w-full max-h-[90vh] flex flex-col shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+      <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600">
+            <i data-lucide="database" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="font-extrabold text-base text-slate-900">EHF 2014 Platinum Master Schedule</h3>
+            <p class="text-xs text-slate-500">Complete League Database (All 180 Matches • Sep 5, 2026 – Feb 28, 2027)</p>
+          </div>
+        </div>
+        <button onclick="closeMasterScheduleModal()" class="text-slate-400 hover:text-slate-700 transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="p-4 border-b border-slate-100 bg-slate-50/70 flex flex-wrap items-center justify-between gap-3">
+        <div class="relative flex-1 min-w-[260px]">
+          <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-3 text-slate-400"></i>
+          <input type="text" id="masterSearchInput" oninput="renderMasterScheduleTable()" placeholder="Search team, rink, or date..." class="w-full bg-white border border-slate-200 rounded-xl pl-9 pr-3.5 py-2 text-xs text-slate-800 font-medium focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition shadow-2xs">
+        </div>
+        <span class="text-xs font-bold text-slate-600 bg-white px-3 py-1.5 rounded-xl border border-slate-200" id="masterCountBadge">Showing 180 games</span>
+      </div>
+
+      <div class="p-4 overflow-y-auto flex-1 custom-scrollbar">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="bg-slate-100/80 text-slate-600 border-b border-slate-200 font-bold sticky top-0">
+              <th class="p-2.5">#</th>
+              <th class="p-2.5">Date</th>
+              <th class="p-2.5">Time</th>
+              <th class="p-2.5">Visitor Team</th>
+              <th class="p-2.5">Home Team</th>
+              <th class="p-2.5">Rink / Location</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 bg-white" id="masterTableBody"></tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -490,97 +573,68 @@
     </div>
   </div>
 
-  <!-- Master Schedule View Modal (All 180 Games) -->
-  <div id="masterScheduleModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white border border-slate-200 rounded-3xl max-w-5xl w-full max-h-[90vh] flex flex-col shadow-2xl animate-in fade-in zoom-in-95 duration-200">
-      <div class="p-5 border-b border-slate-100 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600">
-            <i data-lucide="database" class="w-5 h-5"></i>
-          </div>
-          <div>
-            <h3 class="font-extrabold text-base text-slate-900">EHF 2014 Platinum Master Schedule</h3>
-            <p class="text-xs text-slate-500">Complete League Database (All 180 Matches • Sep 5, 2026 – Feb 28, 2027)</p>
-          </div>
-        </div>
-        <button onclick="closeMasterScheduleModal()" class="text-slate-400 hover:text-slate-700 transition">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
-      </div>
-
-      <div class="p-4 border-b border-slate-100 bg-slate-50/70 flex flex-wrap items-center justify-between gap-3">
-        <div class="relative flex-1 min-w-[260px]">
-          <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-3 text-slate-400"></i>
-          <input type="text" id="masterSearchInput" oninput="renderMasterScheduleTable()" placeholder="Search team, rink, or date..." class="w-full bg-white border border-slate-200 rounded-xl pl-9 pr-3.5 py-2 text-xs text-slate-800 font-medium focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition shadow-2xs">
-        </div>
-        <span class="text-xs font-bold text-slate-600 bg-white px-3 py-1.5 rounded-xl border border-slate-200" id="masterCountBadge">Showing 180 games</span>
-      </div>
-
-      <div class="p-4 overflow-y-auto flex-1 custom-scrollbar">
-        <table class="w-full text-left text-xs border-collapse">
-          <thead>
-            <tr class="bg-slate-100/80 text-slate-600 border-b border-slate-200 font-bold sticky top-0">
-              <th class="p-2.5">#</th>
-              <th class="p-2.5">Date</th>
-              <th class="p-2.5">Time</th>
-              <th class="p-2.5">Visitor Team</th>
-              <th class="p-2.5">Home Team</th>
-              <th class="p-2.5">Rink / Location</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-100 bg-white" id="masterTableBody"></tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- Notification Toast -->
+  <!-- Toast -->
   <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3 text-xs font-bold transform translate-y-24 transition duration-300 z-50">
     <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
-    <span id="toastMsg">Schedule updated and locked!</span>
+    <span id="toastMsg">Schedule updated!</span>
   </div>
 
-  <!-- App Data & Scripts -->
+  <!-- Application Logic & Embedded Contacts Data -->
   <script>
-    // Crimson Reference Rating
-    const CRIMSON_MHR_RATING = 93.85;
+    // 60 CLUBS FROM CONTACTS SHEET TAB
+    const CONTACTS_DATA = [
+      {"club": "East Coast Wizards - 2014 Elite", "org": "E9", "rating": 86.0, "priority": "Curtis", "location": "Bedford, MA - Edge", "coach": "Matt Robitaille", "coachEmail": "mattrobo@gmail.com", "coachCell": "617-306-3347", "asstCoach": "", "asstCoachEmail": "", "asstCoachCell": "", "manager": "Carolyn Peacock", "managerEmail": "ccoppe@gmail.com", "managerCell": "", "responsive": "", "notes": "8/8 - Curtis emailed Robo & Carolyn", "games": ""},
+      {"club": "Patriots - 2014 Elite", "org": "E9", "rating": 88.0, "priority": "Curtis", "location": "Concord, MA - Valley Sports Arena", "coach": "TJ Barrile", "coachEmail": "tjbarrile@yahoo.com", "coachCell": "", "asstCoach": "", "asstCoachEmail": "", "asstCoachCell": "", "manager": "", "managerEmail": "", "managerCell": "", "responsive": "", "notes": "8/8 - Curtis emailed TJ", "games": ""},
+      {"club": "Islanders East (Brooks) - 2014", "org": "EHF - Upper Gold", "rating": 85.0, "priority": "Ayrton", "location": "Andover, MA - Gallant Arena", "coach": "Rocky Brooks", "coachEmail": "", "coachCell": "617-596-6048", "asstCoach": "", "asstCoachEmail": "", "asstCoachCell": "", "manager": "", "managerEmail": "", "managerCell": "", "responsive": "Yes", "notes": "", "games": ""},
+      {"club": "Jr. Eagles - 2014", "org": "EHF - Upper Gold", "rating": 85.0, "priority": "Ayrton", "location": "Wellesley, MA - BSI", "coach": "Ted O'Brien", "coachEmail": "ted@coastseafoodusa.com", "coachCell": "617-592-3771", "asstCoach": "", "asstCoachEmail": "", "asstCoachCell": "", "manager": "", "managerEmail": "", "managerCell": "", "responsive": "", "notes": "", "games": ""},
+      {"club": "Jr. Terriers - 2014 Red", "org": "EHF - Platinum", "rating": 86.0, "priority": "Curtis", "location": "Canton, MA - Canton Sportsplex", "coach": "Tim Kelleher", "coachEmail": "tkells1@gmail.com", "coachCell": "617-335-7759", "asstCoach": "David MacAlpine", "asstCoachEmail": "", "asstCoachCell": "617-320-7648", "manager": "", "managerEmail": "", "managerCell": "", "responsive": "Yes", "notes": "8/8 - Curtis emailed Tim; David texted me back that he left Winter Club and is now coaching with Tim.\nTim texted Curtis on 8/10 with interest to play. Will review their schedule", "games": ""},
+      {"club": "Bay State Breakers - 2014 (Platinum)", "org": "EHF - Platinum", "rating": 85.0, "priority": "Ayrton", "location": "Kingston, MA - Bog Ice Arena", "coach": "Steve Slonina", "coachEmail": "sslonina5@hotmail.com", "coachCell": "617-755-1129", "asstCoach": "", "asstCoachEmail": "", "asstCoachCell": "", "manager": "", "managerEmail": "", "managerCell": "", "responsive": "Yes", "notes": "8/9 - Ayrton texted HC and have tentative for 9/27\n8/18 - Aryton confirmed they will play us on 9/27", "games": ""},
+      {"club": "Bay State Breakers - 2014 (Elite)", "org": "EHF - Elite", "rating": 89.0, "priority": "Curtis", "location": "Kingston, MA - Bog Ice Arena", "coach": "Jordan Virtue", "coachEmail": "jordanvirtue@gmail.com", "coachCell": "617-224-8625", "asstCoach": "", "asstCoachEmail": "", "asstCoachCell": "", "manager": "Jeremiah Toomey", "managerEmail": "", "managerCell": "", "responsive": "", "notes": "8/8 - Curtis emailed Jordan\n8/17 - Curtis texted Jerry", "games": ""},
+      {"club": "South Shore Kings - 2014", "org": "EHF - Platinum", "rating": 87.0, "priority": "Curtis", "location": "Foxboro, MA - Foxboro Sports Center", "coach": "Brian Hern", "coachEmail": "bdhern@gmail.com", "coachCell": "", "asstCoach": "", "asstCoachEmail": "", "asstCoachCell": "", "manager": "", "managerEmail": "", "managerCell": "", "responsive": "", "notes": "8/8 - Curtis emailed Brian", "games": ""},
+      {"club": "Northstars Hockey Club - 2014", "org": "EHF - Platinum", "rating": 85.0, "priority": "Curtis", "location": "Westborough, MA - NorthStar Ice Sports", "coach": "Greg Giombetti", "coachEmail": "greg@giombettis.com", "coachCell": "508-641-8048", "asstCoach": "", "asstCoachEmail": "", "asstCoachCell": "", "manager": "", "managerEmail": "", "managerCell": "", "responsive": "", "notes": "8/8 - Curtis emailed Greg (he was non-responsive last year)", "games": ""},
+      {"club": "Seacoast Spartans - 2014", "org": "EHF - Platinum", "rating": 87.0, "priority": "Curtis", "location": "Exeter, NH - The Rinks at Exeter", "coach": "Andrew McPhee", "coachEmail": "", "coachCell": "", "asstCoach": "", "asstCoachEmail": "", "asstCoachCell": "", "manager": "", "managerEmail": "", "managerCell": "", "responsive": "", "notes": "8/8 - Curtis messaged Andrew via LinkedIn", "games": ""},
+      {"club": "Express 2014 - Elite", "org": "E9", "rating": 83.0, "priority": "", "location": "Walpole, MA - Cadillac Ice Arena", "coach": "John Procaccini", "coachEmail": "", "coachCell": "", "asstCoach": "", "asstCoachEmail": "", "asstCoachCell": "", "manager": "", "managerEmail": "", "managerCell": "", "responsive": "", "notes": "", "games": ""},
+      {"club": "Express 2014 - Select", "org": "E9", "rating": 81.0, "priority": "", "location": "Walpole, MA - Cadillac Ice Arena", "coach": "Kevin Cotter", "coachEmail": "kcexpress14@gmail.com", "coachCell": "617-966-3904", "asstCoach": "", "asstCoachEmail": "", "asstCoachCell": "", "manager": "", "managerEmail": "", "managerCell": "", "responsive": "Yes", "notes": "", "games": ""},
+      {"club": "Lovell Winter Club (Elite) 12U AAA", "org": "E9", "rating": 87.0, "priority": "Curtis", "location": "Rockland, MA", "coach": "", "coachEmail": "", "coachCell": "", "asstCoach": "", "asstCoachEmail": "", "asstCoachCell": "", "manager": "", "managerEmail": "", "managerCell": "", "responsive": "", "notes": "They may only have 1 Winter Club team now. Heath is the coach", "games": ""},
+      {"club": "Lovell Winter Club (Select) 12U AAA", "org": "E9", "rating": 87.0, "priority": "Curtis", "location": "Rockland, MA", "coach": "Heath Gordon", "coachEmail": "", "coachCell": "", "asstCoach": "", "asstCoachEmail": "", "asstCoachCell": "", "manager": "Ian Frenette", "managerEmail": "", "managerCell": "", "responsive": "", "notes": "8/8 - Curtis messaged TM Ian on MYR website", "games": ""},
+      {"club": "Valley Jr. Warriors - 2014 Elite", "org": "E9", "rating": 86.0, "priority": "Curtis", "location": "Haverhill, MA - Haverhill Valley Forum", "coach": "Craig Edwards", "coachEmail": "cedwards@jrwarriors.com", "coachCell": "978-420-5518", "asstCoach": "", "asstCoachEmail": "", "asstCoachCell": "", "manager": "Sean Homem", "managerEmail": "", "managerCell": "857-277-3431", "responsive": "", "notes": "8/9 - Curtis texted Sean Homem; 8/16 - Curtis emailed Craig", "games": ""},
+      {"club": "Casco Bay Mariners 12U AAA", "org": "E9", "rating": 84.0, "priority": "Curtis", "location": "Falmouth, ME", "coach": "Adam Toutain", "coachEmail": "", "coachCell": "", "asstCoach": "", "asstCoachEmail": "", "asstCoachCell": "", "manager": "", "managerEmail": "", "managerCell": "", "responsive": "", "notes": "8/8 - Curtis messaged Adam via LinkedIn", "games": ""},
+      {"club": "Jr. Bruins - 2014 Elite", "org": "E9", "rating": 85.0, "priority": "Curtis", "location": "Brighton, MA - Reilly", "coach": "Kevin McWhinnie", "coachEmail": "", "coachCell": "617-293-6249", "asstCoach": "Nick Fazio", "asstCoachEmail": "", "asstCoachCell": "", "manager": "Kristin Nill", "managerEmail": "", "managerCell": "", "responsive": "Yes", "notes": "8/9 - Curtis texted Kevin. Kevin responded same day that they are interested. Texted back our available dates.", "games": ""},
+      {"club": "Jr. Falcons - 2014", "org": "E9", "rating": 84.0, "priority": "Ayrton", "location": "Waltham, MA", "coach": "Sean Lozier", "coachEmail": "", "coachCell": "781-864-9906", "asstCoach": "", "asstCoachEmail": "", "asstCoachCell": "", "manager": "", "managerEmail": "", "managerCell": "", "responsive": "", "notes": "", "games": ""},
+      {"club": "NY Dynamos - 2014", "org": "THF - Tier 1 Hockey Federation", "rating": 88.0, "priority": "Curtis", "location": "Clifton Park, NY (Albany area)", "coach": "Pierre Leblond", "coachEmail": "pierrel@nydynamo.com", "coachCell": "", "asstCoach": "", "asstCoachEmail": "", "asstCoachCell": "", "manager": "Karen Laber", "managerEmail": "kjlaber@gmail.com", "managerCell": "", "responsive": "Yes", "notes": "8/8 - Curtis messaged Pierre on FB\n8/12 - Pierre connected with Karen.", "games": ""},
+      {"club": "Hartford Jr. Wolf Pack - 2014", "org": "THF - Tier 1 Hockey Federation", "rating": 81.0, "priority": "Curtis", "location": "Hartford, CT - Champions Skating Ctr", "coach": "", "coachEmail": "", "coachCell": "", "asstCoach": "", "asstCoachEmail": "", "asstCoachCell": "", "manager": "Casey Lemay", "managerEmail": "Facebook", "managerCell": "203-530-9967", "responsive": "Yes", "notes": "Play good competition (Jersey Hitmen, Flyers).", "games": "10/17 @ Hartford Jr. Wolfpack"},
+      {"club": "Yale Bulldogs 12U AAA (CT)", "org": "CHC 12U Open", "rating": 84.0, "priority": "Curtis", "location": "Northford, CT (1.75 hours)", "coach": "Joe Errico", "coachEmail": "", "coachCell": "", "asstCoach": "Eric Germain / Ryan Shannon", "asstCoachEmail": "", "asstCoachCell": "(203) 506-4753", "manager": "Danielle Santagata / Marc Betancourt / Ken Catino", "managerEmail": "mbetancourt2786@gmail.com", "managerCell": "(203) 627-1951", "responsive": "Yes", "notes": "Marc Betancourt reached out to Margaret. Booked 2 games there and 2 at Fess.", "games": "11/8 @ Yale (2)\n11/21 @ Crimson (2)"},
+      {"club": "NE Bulldogs Hockey Club - 2014 Platinum", "org": "EHF - Upper Gold", "rating": 85.0, "priority": "Ayrton", "location": "Billerica, MA", "coach": "Mark Longo", "coachEmail": "marklongo10@gmail.com", "coachCell": "", "asstCoach": "", "asstCoachEmail": "", "asstCoachCell": "", "manager": "", "managerEmail": "", "managerCell": "", "responsive": "", "notes": "Ayrton got the contact. Crimson played them in 2023 in EHF Upper Gold", "games": ""},
+      {"club": "North Shore Hockey Academy 12U AA", "org": "Independent", "rating": 78.0, "priority": "Curtis", "location": "Middleton, MA", "coach": "Chris O'Reilly", "coachEmail": "coreilly1104@gmail.com", "coachCell": "617-655-4922", "asstCoach": "Chris Szymanski", "asstCoachEmail": "", "asstCoachCell": "508-243-5555", "manager": "", "managerEmail": "", "managerCell": "", "responsive": "Yes", "notes": "8/17 - Jeff spoke with Chris; locked in to host them on 10/31 and Chris will come back with a winter date.", "games": "10/31 8:20am @ Crimson"},
+      {"club": "Mass Bay Chiefs", "org": "Independent", "rating": 83.0, "priority": "Ayrton", "location": "Peabody, MA", "coach": "Pete Garabedian", "coachEmail": "pneri03@gmail.com", "coachCell": "617-224-7264", "asstCoach": "", "asstCoachEmail": "", "asstCoachCell": "", "manager": "", "managerEmail": "", "managerCell": "", "responsive": "Yes", "notes": "8/9 - Curtis & Ayrton texted Pete (responded back immediate...interested)", "games": ""},
+      {"club": "Westchester Express", "org": "E9/Independent", "rating": 86.0, "priority": "Curtis", "location": "Brewster, NY", "coach": "Josh Newberg", "coachEmail": "JNewberg14@outlook.com", "coachCell": "", "asstCoach": "Joe Minerva", "asstCoachEmail": "joeminerva5@gmail.com", "asstCoachCell": "", "manager": "", "managerEmail": "", "managerCell": "", "responsive": "", "notes": "8/8 - Curtis messaged Josh & Joe. 2.5 hours from Boston", "games": ""},
+      {"club": "Providence Capitals Elite", "org": "EHF - Elite", "rating": 91.0, "priority": "", "location": "Providence, RI", "coach": "Joe Rotz", "coachEmail": "joseph.rotz@gmail.com", "coachCell": "(401) 418-0756", "asstCoach": "Nick Boulis", "asstCoachEmail": "nickboulis@yahoo.com", "asstCoachCell": "(401) 954-7588", "manager": "", "managerEmail": "", "managerCell": "", "responsive": "", "notes": "8/9 - Curtis emailed Joe", "games": ""},
+      {"club": "Providence Capitals - Upper Gold", "org": "EHF - Upper Gold", "rating": 85.0, "priority": "Curtis", "location": "Providence, RI", "coach": "Jimmy Batista", "coachEmail": "JimmyBatista76@yahoo.com", "coachCell": "(401) 663-6901", "asstCoach": "", "asstCoachEmail": "", "asstCoachCell": "", "manager": "", "managerEmail": "", "managerCell": "", "responsive": "Yes", "notes": "8/9 - Curtis emailed Jimmy; Jimmy replied on 8/10. Passed on August ice.", "games": ""},
+      {"club": "New England Stars (Conley) 12U AAA", "org": "Independent", "rating": 85.0, "priority": "Curtis", "location": "Tyngsboro, MA", "coach": "Daniel Conley", "coachEmail": "", "coachCell": "603-494-1110", "asstCoach": "", "asstCoachEmail": "", "asstCoachCell": "", "manager": "", "managerEmail": "", "managerCell": "", "responsive": "Yes", "notes": "8/10 - Dan replied back that 11/29 will work to come to Fess.", "games": "11/29 @ Crimson (10:20)"},
+      {"club": "Troy Albany Titans 12U AAA", "org": "MVHL", "rating": 82.0, "priority": "Curtis", "location": "Albany, NY", "coach": "Kyle Coletti", "coachEmail": "", "coachCell": "(518) 331-2646", "asstCoach": "", "asstCoachEmail": "", "asstCoachCell": "", "manager": "Melissa Quinlan / Marietta Yetto", "managerEmail": "", "managerCell": "", "responsive": "", "notes": "8/9 - Curtis texted Kyle (HC) and emailed scheduler through Crossbar", "games": ""},
+      {"club": "Western Mass Wizards 12U AA", "org": "Independent", "rating": 88.0, "priority": "Curtis", "location": "Springfield, MA", "coach": "Mike Shea", "coachEmail": "", "coachCell": "413-575-0431", "asstCoach": "", "asstCoachEmail": "", "asstCoachCell": "", "manager": "", "managerEmail": "", "managerCell": "", "responsive": "Yes", "notes": "Curtis connected with Mike.", "games": ""}
+    ];
 
-    // MYHockey Rankings (MHR) Intelligence Data for Division
-    const MHR_TEAM_DATA = {
-      "Minuteman Flames Hogan": { rating: 94.10, rank: "#6 US", stateRank: "#2 MA", record: "18-4-2", agd: "+2.15", sos: "92.45", diff: 0.25 },
-      "Boston Jr. Terriers (Red)- Kelleher": { rating: 93.40, rank: "#11 US", stateRank: "#4 MA", record: "16-5-3", agd: "+1.80", sos: "92.10", diff: -0.45 },
-      "IHC West 2014 - Warilla": { rating: 92.95, rank: "#15 US", stateRank: "#6 MA", record: "15-7-2", agd: "+1.25", sos: "91.90", diff: -0.90 },
-      "Top Gun - Hayes": { rating: 92.20, rank: "#22 US", stateRank: "#8 MA", record: "14-8-2", agd: "+0.85", sos: "91.50", diff: -1.65 },
-      "South Shore Kings": { rating: 91.80, rank: "#28 US", stateRank: "#10 MA", record: "13-9-2", agd: "+0.50", sos: "91.20", diff: -2.05 },
-      "NorthStars - Giombetti": { rating: 91.15, rank: "#35 US", stateRank: "#13 MA", record: "11-10-3", agd: "+0.10", sos: "90.95", diff: -2.70 },
-      "Bay State Breakers 2014": { rating: 90.40, rank: "#42 US", stateRank: "#16 MA", record: "10-12-2", agd: "-0.45", sos: "90.60", diff: -3.45 },
-      "Seacoast Spartans": { rating: 89.90, rank: "#49 US", stateRank: "#4 NH", record: "9-13-2", agd: "-0.80", sos: "90.20", diff: -3.95 },
-      "Bulldogs Hockey Club": { rating: 89.20, rank: "#58 US", stateRank: "#21 MA", record: "7-15-2", agd: "-1.30", sos: "89.80", diff: -4.65 },
-      "CJR 2014": { rating: 88.80, rank: "#65 US", stateRank: "#8 CT", record: "6-16-2", agd: "-1.75", sos: "89.40", diff: -5.05 }
-    };
-
-    const DIVISION_TEAMS = Object.keys(MHR_TEAM_DATA);
-
-    // Dynamic Crimson Working Schedule
+    // Crimson Working Schedule
     let CRIMSON_SLOTS = [
       { id: 1, date: "2026-09-19", displayDate: "9/19/2026", time: "8:20 AM - 9:10 AM", opponent: "TBD", format: "HOME", status: "open", rink: "Fessenden Ice Rink" },
       { id: 2, date: "2026-09-26", displayDate: "9/26/2026", time: "2:00 PM - 3:20 PM", opponent: "TBD", format: "HOME", status: "open", rink: "Fessenden Ice Rink" },
-      { id: 3, date: "2026-09-27", displayDate: "9/27/2026", time: "1:10 PM - 2:20 PM", opponent: "TBD", format: "HOME", status: "open", rink: "Fessenden Ice Rink" },
+      { id: 3, date: "2026-09-27", displayDate: "9/27/2026", time: "1:10 PM - 2:20 PM", opponent: "Bay State Breakers - 2014 (Platinum)", format: "HOME", status: "booked", rink: "Fessenden Ice Rink" },
       { id: 4, date: "2026-10-03", displayDate: "10/3/2026", time: "8:20 AM - 9:10 AM", opponent: "TBD", format: "HOME", status: "open", rink: "Fessenden Ice Rink" },
       { id: 5, date: "2026-10-24", displayDate: "10/24/2026", time: "8:20 AM - 9:10 AM", opponent: "TBD", format: "HOME", status: "open", rink: "Fessenden Ice Rink" },
       { id: 6, date: "2026-10-25", displayDate: "10/25/2026", time: "2:30 PM - 3:50 PM", opponent: "TBD", format: "HOME", status: "open", rink: "Fessenden Ice Rink" },
-      { id: 7, date: "2026-10-31", displayDate: "10/31/2026", time: "8:20 AM - 9:10 AM", opponent: "TBD", format: "HOME", status: "open", rink: "Fessenden Ice Rink" },
+      { id: 7, date: "2026-10-31", displayDate: "10/31/2026", time: "8:20 AM - 9:10 AM", opponent: "North Shore Hockey Academy 12U AA", format: "HOME", status: "booked", rink: "Fessenden Ice Rink" },
       { id: 8, date: "2026-11-01", displayDate: "11/1/2026", time: "4:00 PM - 5:20 PM", opponent: "TBD", format: "HOME", status: "open", rink: "Fessenden Ice Rink" },
       { id: 9, date: "2026-11-08", displayDate: "11/8/2026", time: "9:00 AM - 10:10 AM", opponent: "TBD", format: "HOME", status: "open", rink: "Fessenden Ice Rink" },
       { id: 10, date: "2026-11-15", displayDate: "11/15/2026", time: "1:10 PM - 2:20 PM", opponent: "TBD", format: "HOME", status: "open", rink: "Fessenden Ice Rink" },
-      { id: 11, date: "2026-11-21", displayDate: "11/21/2026", time: "11:00 AM - 12:20 PM", opponent: "2014 White v. Yale", format: "HOME", status: "booked", rink: "Fessenden Ice Rink" },
-      { id: 12, date: "2026-11-21", displayDate: "11/21/2026", time: "3:20 PM - 4:40 PM", opponent: "2014 White v. Yale", format: "HOME", status: "booked", rink: "Fessenden Ice Rink" },
-      { id: 13, date: "2026-11-29", displayDate: "11/29/2026", time: "10:20 AM - 11:30 AM", opponent: "2014 White vs New England Stars", format: "HOME", status: "booked", rink: "Fessenden Ice Rink" }
+      { id: 11, date: "2026-11-21", displayDate: "11/21/2026", time: "11:00 AM - 12:20 PM", opponent: "Yale Bulldogs 12U AAA (CT)", format: "HOME", status: "booked", rink: "Fessenden Ice Rink" },
+      { id: 12, date: "2026-11-21", displayDate: "11/21/2026", time: "3:20 PM - 4:40 PM", opponent: "Yale Bulldogs 12U AAA (CT)", format: "HOME", status: "booked", rink: "Fessenden Ice Rink" },
+      { id: 13, date: "2026-11-29", displayDate: "11/29/2026", time: "10:20 AM - 11:30 AM", opponent: "New England Stars (Conley) 12U AAA", format: "HOME", status: "booked", rink: "Fessenden Ice Rink" }
     ];
 
-    // Algorithmic Pre-computed Matches
+    // Pre-computed EHF Match Availability
     const AVAILABILITY_DATA = {
-      1: { open: [], flexible: [], conflicted: DIVISION_TEAMS },
+      1: { open: [], flexible: [], conflicted: ["Minuteman Flames Hogan", "NorthStars - Giombetti", "Bulldogs Hockey Club", "IHC West 2014 - Warilla", "Bay State Breakers 2014", "Boston Jr. Terriers (Red)- Kelleher", "Top Gun - Hayes", "South Shore Kings", "Seacoast Spartans", "CJR 2014"] },
       2: { open: ["Minuteman Flames Hogan", "NorthStars - Giombetti"], flexible: [], conflicted: ["Bulldogs Hockey Club", "IHC West 2014 - Warilla", "Bay State Breakers 2014", "Boston Jr. Terriers (Red)- Kelleher", "Top Gun - Hayes", "South Shore Kings", "Seacoast Spartans", "CJR 2014"] },
       3: { open: ["Minuteman Flames Hogan", "Bulldogs Hockey Club", "IHC West 2014 - Warilla", "Bay State Breakers 2014", "Seacoast Spartans", "CJR 2014"], flexible: [], conflicted: ["NorthStars - Giombetti", "Boston Jr. Terriers (Red)- Kelleher", "Top Gun - Hayes", "South Shore Kings"] },
       4: { open: ["Bulldogs Hockey Club", "South Shore Kings"], flexible: [], conflicted: ["Minuteman Flames Hogan", "NorthStars - Giombetti", "IHC West 2014 - Warilla", "Bay State Breakers 2014", "Boston Jr. Terriers (Red)- Kelleher", "Top Gun - Hayes", "Seacoast Spartans", "CJR 2014"] },
@@ -593,225 +647,63 @@
         ], 
         conflicted: ["Minuteman Flames Hogan", "NorthStars - Giombetti", "Bulldogs Hockey Club", "Seacoast Spartans"] 
       },
-      7: { open: [...DIVISION_TEAMS], flexible: [], conflicted: [] },
+      7: { open: ["Minuteman Flames Hogan", "NorthStars - Giombetti", "Bulldogs Hockey Club", "IHC West 2014 - Warilla", "Bay State Breakers 2014", "Boston Jr. Terriers (Red)- Kelleher", "Top Gun - Hayes", "South Shore Kings", "Seacoast Spartans", "CJR 2014"], flexible: [], conflicted: [] },
       8: { open: ["IHC West 2014 - Warilla", "Bay State Breakers 2014", "Top Gun - Hayes", "CJR 2014"], flexible: [], conflicted: ["Minuteman Flames Hogan", "NorthStars - Giombetti", "Bulldogs Hockey Club", "Boston Jr. Terriers (Red)- Kelleher", "South Shore Kings", "Seacoast Spartans"] },
       9: { open: ["NorthStars - Giombetti", "Bulldogs Hockey Club", "IHC West 2014 - Warilla", "Bay State Breakers 2014", "Boston Jr. Terriers (Red)- Kelleher", "Top Gun - Hayes", "Seacoast Spartans", "CJR 2014"], flexible: [], conflicted: ["Minuteman Flames Hogan", "South Shore Kings"] },
       10: { open: ["NorthStars - Giombetti", "Bulldogs Hockey Club", "Top Gun - Hayes", "South Shore Kings"], flexible: [], conflicted: ["Minuteman Flames Hogan", "IHC West 2014 - Warilla", "Bay State Breakers 2014", "Boston Jr. Terriers (Red)- Kelleher", "Seacoast Spartans", "CJR 2014"] }
     };
 
-    // Full 180 EHF Master Games List
-    const EHF_MASTER_GAMES = [
-      {"date": "Sep 5, 2026", "time": "12:10 PM", "visitor": "Minuteman Flames Hogan", "home": "IHC West 2014 - Warilla", "loc": "Skate 3 Red"},
-      {"date": "Sep 6, 2026", "time": "9:10 AM", "visitor": "Minuteman Flames Hogan", "home": "IHC West 2014 - Warilla", "loc": "Merrimack (Gallant)"},
-      {"date": "Sep 12, 2026", "time": "2:20 PM", "visitor": "Minuteman Flames Hogan", "home": "Bay State Breakers 2014", "loc": "Bog 1"},
-      {"date": "Sep 13, 2026", "time": "10:00 AM", "visitor": "NorthStars - Giombetti", "home": "CJR 2014", "loc": "Edward L Bennett Rink"},
-      {"date": "Sep 13, 2026", "time": "3:00 PM", "visitor": "NorthStars - Giombetti", "home": "CJR 2014", "loc": "Edward L Bennett Rink"},
-      {"date": "Sep 13, 2026", "time": "6:10 PM", "visitor": "Bulldogs Hockey Club", "home": "IHC West 2014 - Warilla", "loc": "Skate 3 Red"},
-      {"date": "Sep 19, 2026", "time": "10:35 AM", "visitor": "IHC West 2014 - Warilla", "home": "Top Gun - Hayes", "loc": "Salem Ice Center"},
-      {"date": "Sep 19, 2026", "time": "11:00 AM", "visitor": "Minuteman Flames Hogan", "home": "CJR 2014", "loc": "Edward L Bennett Rink"},
-      {"date": "Sep 19, 2026", "time": "12:00 PM", "visitor": "Bay State Breakers 2014", "home": "South Shore Kings", "loc": "Foxboro Sports Center"},
-      {"date": "Sep 19, 2026", "time": "12:45 PM", "visitor": "Boston Jr. Terriers (Red)- Kelleher", "home": "NorthStars - Giombetti", "loc": "NorthStar Ice Sports"},
-      {"date": "Sep 19, 2026", "time": "1:45 PM", "visitor": "Minuteman Flames Hogan", "home": "CJR 2014", "loc": "Edward L Bennett Rink"},
-      {"date": "Sep 19, 2026", "time": "3:40 PM", "visitor": "Bulldogs Hockey Club", "home": "Seacoast Spartans", "loc": "Rinks at Exeter 1"},
-      {"date": "Sep 20, 2026", "time": "8:30 AM", "visitor": "Bay State Breakers 2014", "home": "Seacoast Spartans", "loc": "Rinks at Exeter 2"},
-      {"date": "Sep 20, 2026", "time": "11:00 AM", "visitor": "Top Gun - Hayes", "home": "South Shore Kings", "loc": "Foxboro Sports Center"},
-      {"date": "Sep 20, 2026", "time": "3:05 PM", "visitor": "Top Gun - Hayes", "home": "South Shore Kings", "loc": "Foxboro Sports Center"},
-      {"date": "Sep 20, 2026", "time": "5:20 PM", "visitor": "IHC West 2014 - Warilla", "home": "Boston Jr. Terriers (Red)- Kelleher", "loc": "Canton Sportsplex"},
-      {"date": "Sep 20, 2026", "time": "5:30 PM", "visitor": "Minuteman Flames Hogan", "home": "Bulldogs Hockey Club", "loc": "Hallenborg Ice Arena"},
-      {"date": "Sep 26, 2026", "time": "11:00 AM", "visitor": "Top Gun - Hayes", "home": "CJR 2014", "loc": "Edward L Bennett Rink"},
-      {"date": "Sep 26, 2026", "time": "1:40 PM", "visitor": "South Shore Kings", "home": "IHC West 2014 - Warilla", "loc": "Skate 3 Red"},
-      {"date": "Sep 26, 2026", "time": "1:45 PM", "visitor": "Top Gun - Hayes", "home": "CJR 2014", "loc": "Edward L Bennett Rink"},
-      {"date": "Sep 26, 2026", "time": "2:50 PM", "visitor": "Bulldogs Hockey Club", "home": "Bay State Breakers 2014", "loc": "Bog 2"},
-      {"date": "Sep 26, 2026", "time": "7:40 PM", "visitor": "Seacoast Spartans", "home": "Boston Jr. Terriers (Red)- Kelleher", "loc": "Canton Sportsplex"},
-      {"date": "Sep 27, 2026", "time": "10:40 AM", "visitor": "South Shore Kings", "home": "Boston Jr. Terriers (Red)- Kelleher", "loc": "Canton Sportsplex"},
-      {"date": "Sep 27, 2026", "time": "2:10 PM", "visitor": "Top Gun - Hayes", "home": "NorthStars - Giombetti", "loc": "NorthStar Ice Sports"},
-      {"date": "Oct 3, 2026", "time": "10:40 AM", "visitor": "NorthStars - Giombetti", "home": "IHC West 2014 - Warilla", "loc": "Skate 3 Red"},
-      {"date": "Oct 3, 2026", "time": "11:40 AM", "visitor": "CJR 2014", "home": "Boston Jr. Terriers (Red)- Kelleher", "loc": "Canton Sportsplex"},
-      {"date": "Oct 3, 2026", "time": "2:20 PM", "visitor": "CJR 2014", "home": "Boston Jr. Terriers (Red)- Kelleher", "loc": "Canton Sportsplex"},
-      {"date": "Oct 3, 2026", "time": "3:40 PM", "visitor": "Minuteman Flames Hogan", "home": "Seacoast Spartans", "loc": "Rinks at Exeter 1"},
-      {"date": "Oct 3, 2026", "time": "6:50 PM", "visitor": "Top Gun - Hayes", "home": "Bay State Breakers 2014", "loc": "Bog 2"},
-      {"date": "Oct 4, 2026", "time": "11:00 AM", "visitor": "Bay State Breakers 2014", "home": "CJR 2014", "loc": "Edward L Bennett Rink"},
-      {"date": "Oct 4, 2026", "time": "11:30 AM", "visitor": "NorthStars - Giombetti", "home": "Seacoast Spartans", "loc": "Rinks at Exeter 2"},
-      {"date": "Oct 4, 2026", "time": "12:40 PM", "visitor": "Top Gun - Hayes", "home": "IHC West 2014 - Warilla", "loc": "Skate 3 Red"},
-      {"date": "Oct 4, 2026", "time": "1:45 PM", "visitor": "Bay State Breakers 2014", "home": "CJR 2014", "loc": "Edward L Bennett Rink"},
-      {"date": "Oct 4, 2026", "time": "2:40 PM", "visitor": "Bulldogs Hockey Club", "home": "Boston Jr. Terriers (Red)- Kelleher", "loc": "Canton Sportsplex"},
-      {"date": "Oct 10, 2026", "time": "9:40 AM", "visitor": "Bay State Breakers 2014", "home": "Seacoast Spartans", "loc": "Rinks at Exeter 1"},
-      {"date": "Oct 10, 2026", "time": "2:10 PM", "visitor": "Top Gun - Hayes", "home": "NorthStars - Giombetti", "loc": "NorthStar Ice Sports"},
-      {"date": "Oct 11, 2026", "time": "8:30 AM", "visitor": "Boston Jr. Terriers (Red)- Kelleher", "home": "Seacoast Spartans", "loc": "Rinks at Exeter 2"},
-      {"date": "Oct 17, 2026", "time": "11:20 AM", "visitor": "South Shore Kings", "home": "Top Gun - Hayes", "loc": "Salem Ice Center"},
-      {"date": "Oct 17, 2026", "time": "12:45 PM", "visitor": "Bulldogs Hockey Club", "home": "NorthStars - Giombetti", "loc": "NorthStar Ice Sports"},
-      {"date": "Oct 17, 2026", "time": "6:20 PM", "visitor": "Bay State Breakers 2014", "home": "Boston Jr. Terriers (Red)- Kelleher", "loc": "Canton Sportsplex"},
-      {"date": "Oct 18, 2026", "time": "8:30 AM", "visitor": "NorthStars - Giombetti", "home": "Seacoast Spartans", "loc": "Rinks at Exeter 2"},
-      {"date": "Oct 18, 2026", "time": "10:40 AM", "visitor": "Boston Jr. Terriers (Red)- Kelleher", "home": "IHC West 2014 - Warilla", "loc": "Skate 3 Red"},
-      {"date": "Oct 18, 2026", "time": "11:00 AM", "visitor": "Bay State Breakers 2014", "home": "Bulldogs Hockey Club", "loc": "Janas Memorial"},
-      {"date": "Oct 18, 2026", "time": "5:50 PM", "visitor": "Top Gun - Hayes", "home": "Minuteman Flames Hogan", "loc": "New England Sports Center"},
-      {"date": "Oct 24, 2026", "time": "11:30 AM", "visitor": "IHC West 2014 - Warilla", "home": "Minuteman Flames Hogan", "loc": "New England Sports Center"},
-      {"date": "Oct 24, 2026", "time": "2:10 PM", "visitor": "Boston Jr. Terriers (Red)- Kelleher", "home": "NorthStars - Giombetti", "loc": "NorthStar Ice Sports"},
-      {"date": "Oct 24, 2026", "time": "2:30 PM", "visitor": "CJR 2014", "home": "Bulldogs Hockey Club", "loc": "Hallenborg Ice Arena"},
-      {"date": "Oct 24, 2026", "time": "5:30 PM", "visitor": "CJR 2014", "home": "Bulldogs Hockey Club", "loc": "Hallenborg Ice Arena"},
-      {"date": "Oct 24, 2026", "time": "6:30 PM", "visitor": "Seacoast Spartans", "home": "South Shore Kings", "loc": "Foxboro Sports Center"},
-      {"date": "Oct 25, 2026", "time": "9:00 AM", "visitor": "South Shore Kings", "home": "Bay State Breakers 2014", "loc": "Hobomock 2"},
-      {"date": "Oct 25, 2026", "time": "12:25 PM", "visitor": "Seacoast Spartans", "home": "Bulldogs Hockey Club", "loc": "Janas Memorial"},
-      {"date": "Oct 25, 2026", "time": "5:05 PM", "visitor": "Minuteman Flames Hogan", "home": "NorthStars - Giombetti", "loc": "NorthStar Ice Sports"},
-      {"date": "Nov 1, 2026", "time": "12:45 PM", "visitor": "South Shore Kings", "home": "NorthStars - Giombetti", "loc": "NorthStar Ice Sports"},
-      {"date": "Nov 1, 2026", "time": "5:00 PM", "visitor": "Boston Jr. Terriers (Red)- Kelleher", "home": "Seacoast Spartans", "loc": "Rinks at Exeter 2"},
-      {"date": "Nov 1, 2026", "time": "6:50 PM", "visitor": "Bulldogs Hockey Club", "home": "Minuteman Flames Hogan", "loc": "New England Sports Center"},
-      {"date": "Nov 7, 2026", "time": "11:00 AM", "visitor": "South Shore Kings", "home": "CJR 2014", "loc": "Edward L Bennett Rink"},
-      {"date": "Nov 7, 2026", "time": "1:45 PM", "visitor": "South Shore Kings", "home": "CJR 2014", "loc": "Edward L Bennett Rink"},
-      {"date": "Nov 8, 2026", "time": "10:20 AM", "visitor": "South Shore Kings", "home": "Minuteman Flames Hogan", "loc": "New England Sports Center"},
-      {"date": "Nov 14, 2026", "time": "1:25 PM", "visitor": "Bay State Breakers 2014", "home": "Top Gun - Hayes", "loc": "Salem Ice Center"},
-      {"date": "Nov 14, 2026", "time": "3:40 PM", "visitor": "Minuteman Flames Hogan", "home": "Boston Jr. Terriers (Red)- Kelleher", "loc": "Canton Sportsplex"},
-      {"date": "Nov 14, 2026", "time": "3:40 PM", "visitor": "IHC West 2014 - Warilla", "home": "NorthStars - Giombetti", "loc": "NorthStar Ice Sports"},
-      {"date": "Nov 14, 2026", "time": "7:00 PM", "visitor": "Seacoast Spartans", "home": "Bulldogs Hockey Club", "loc": "Hallenborg Ice Arena"},
-      {"date": "Nov 15, 2026", "time": "9:20 AM", "visitor": "IHC West 2014 - Warilla", "home": "Boston Jr. Terriers (Red)- Kelleher", "loc": "Canton Sportsplex"},
-      {"date": "Nov 15, 2026", "time": "10:30 AM", "visitor": "Bay State Breakers 2014", "home": "Minuteman Flames Hogan", "loc": "New England Sports Center"},
-      {"date": "Nov 15, 2026", "time": "11:45 AM", "visitor": "Seacoast Spartans", "home": "CJR 2014", "loc": "Edward L Bennett Rink"},
-      {"date": "Nov 15, 2026", "time": "2:45 PM", "visitor": "Seacoast Spartans", "home": "CJR 2014", "loc": "Edward L Bennett Rink"},
-      {"date": "Nov 21, 2026", "time": "11:00 AM", "visitor": "Boston Jr. Terriers (Red)- Kelleher", "home": "CJR 2014", "loc": "Edward L Bennett Rink"},
-      {"date": "Nov 21, 2026", "time": "1:45 PM", "visitor": "Boston Jr. Terriers (Red)- Kelleher", "home": "CJR 2014", "loc": "Edward L Bennett Rink"},
-      {"date": "Nov 21, 2026", "time": "3:40 PM", "visitor": "Seacoast Spartans", "home": "NorthStars - Giombetti", "loc": "NorthStar Ice Sports"},
-      {"date": "Nov 21, 2026", "time": "5:05 PM", "visitor": "Minuteman Flames Hogan", "home": "South Shore Kings", "loc": "Foxboro Sports Center"},
-      {"date": "Nov 21, 2026", "time": "8:00 PM", "visitor": "Bay State Breakers 2014", "home": "Bulldogs Hockey Club", "loc": "Janas Memorial"},
-      {"date": "Nov 22, 2026", "time": "12:10 PM", "visitor": "South Shore Kings", "home": "Seacoast Spartans", "loc": "Rinks at Exeter 1"},
-      {"date": "Nov 22, 2026", "time": "4:30 PM", "visitor": "NorthStars - Giombetti", "home": "Top Gun - Hayes", "loc": "Salem Ice Center"},
-      {"date": "Nov 22, 2026", "time": "5:30 PM", "visitor": "IHC West 2014 - Warilla", "home": "Bulldogs Hockey Club", "loc": "Hallenborg Ice Arena"},
-      {"date": "Nov 22, 2026", "time": "6:40 PM", "visitor": "Bay State Breakers 2014", "home": "Boston Jr. Terriers (Red)- Kelleher", "loc": "Canton Sportsplex"},
-      {"date": "Nov 28, 2026", "time": "2:20 PM", "visitor": "Minuteman Flames Hogan", "home": "Boston Jr. Terriers (Red)- Kelleher", "loc": "Canton Sportsplex"},
-      {"date": "Nov 28, 2026", "time": "2:55 PM", "visitor": "IHC West 2014 - Warilla", "home": "South Shore Kings", "loc": "Foxboro Sports Center"},
-      {"date": "Nov 28, 2026", "time": "7:00 PM", "visitor": "Top Gun - Hayes", "home": "Bulldogs Hockey Club", "loc": "Hallenborg Ice Arena"},
-      {"date": "Nov 29, 2026", "time": "9:20 AM", "visitor": "Top Gun - Hayes", "home": "IHC West 2014 - Warilla", "loc": "Skate 3 Red"},
-      {"date": "Nov 29, 2026", "time": "12:00 PM", "visitor": "South Shore Kings", "home": "Boston Jr. Terriers (Red)- Kelleher", "loc": "Canton Sportsplex"},
-      {"date": "Nov 29, 2026", "time": "3:40 PM", "visitor": "Bulldogs Hockey Club", "home": "NorthStars - Giombetti", "loc": "NorthStar Ice Sports"},
-      {"date": "Nov 29, 2026", "time": "4:00 PM", "visitor": "Minuteman Flames Hogan", "home": "Bay State Breakers 2014", "loc": "Hobomock 1"},
-      {"date": "Dec 5, 2026", "time": "1:10 PM", "visitor": "Top Gun - Hayes", "home": "Minuteman Flames Hogan", "loc": "New England Sports Center"},
-      {"date": "Dec 5, 2026", "time": "1:30 PM", "visitor": "NorthStars - Giombetti", "home": "Bay State Breakers 2014", "loc": "Bog 2"},
-      {"date": "Dec 5, 2026", "time": "2:20 PM", "visitor": "Bulldogs Hockey Club", "home": "South Shore Kings", "loc": "Foxboro Sports Center"},
-      {"date": "Dec 5, 2026", "time": "6:10 PM", "visitor": "Seacoast Spartans", "home": "IHC West 2014 - Warilla", "loc": "Skate 3 Red"},
-      {"date": "Dec 6, 2026", "time": "9:00 AM", "visitor": "NorthStars - Giombetti", "home": "Minuteman Flames Hogan", "loc": "New England Sports Center"},
-      {"date": "Dec 6, 2026", "time": "11:45 AM", "visitor": "IHC West 2014 - Warilla", "home": "CJR 2014", "loc": "Edward L Bennett Rink"},
-      {"date": "Dec 6, 2026", "time": "2:00 PM", "visitor": "Seacoast Spartans", "home": "South Shore Kings", "loc": "Foxboro Sports Center"},
-      {"date": "Dec 6, 2026", "time": "2:45 PM", "visitor": "IHC West 2014 - Warilla", "home": "CJR 2014", "loc": "Edward L Bennett Rink"},
-      {"date": "Dec 6, 2026", "time": "5:15 PM", "visitor": "Boston Jr. Terriers (Red)- Kelleher", "home": "Top Gun - Hayes", "loc": "Salem Ice Center"},
-      {"date": "Dec 12, 2026", "time": "10:10 AM", "visitor": "Boston Jr. Terriers (Red)- Kelleher", "home": "Minuteman Flames Hogan", "loc": "New England Sports Center"},
-      {"date": "Dec 12, 2026", "time": "4:40 PM", "visitor": "Bulldogs Hockey Club", "home": "IHC West 2014 - Warilla", "loc": "Skate 3 Red"},
-      {"date": "Dec 12, 2026", "time": "6:50 PM", "visitor": "South Shore Kings", "home": "Bay State Breakers 2014", "loc": "Bog 2"},
-      {"date": "Dec 13, 2026", "time": "8:00 AM", "visitor": "NorthStars - Giombetti", "home": "Boston Jr. Terriers (Red)- Kelleher", "loc": "Canton Sportsplex"},
-      {"date": "Dec 13, 2026", "time": "10:20 AM", "visitor": "South Shore Kings", "home": "Top Gun - Hayes", "loc": "Salem Ice Center"},
-      {"date": "Dec 13, 2026", "time": "11:45 AM", "visitor": "Bulldogs Hockey Club", "home": "CJR 2014", "loc": "Edward L Bennett Rink"},
-      {"date": "Dec 13, 2026", "time": "1:40 PM", "visitor": "Seacoast Spartans", "home": "Minuteman Flames Hogan", "loc": "New England Sports Center"},
-      {"date": "Dec 13, 2026", "time": "2:40 PM", "visitor": "IHC West 2014 - Warilla", "home": "Bay State Breakers 2014", "loc": "Rockland Ice Rink"},
-      {"date": "Dec 13, 2026", "time": "2:45 PM", "visitor": "Bulldogs Hockey Club", "home": "CJR 2014", "loc": "Edward L Bennett Rink"},
-      {"date": "Dec 19, 2026", "time": "8:10 AM", "visitor": "Top Gun - Hayes", "home": "Seacoast Spartans", "loc": "Rinks at Exeter 1"},
-      {"date": "Dec 19, 2026", "time": "9:30 AM", "visitor": "CJR 2014", "home": "Bay State Breakers 2014", "loc": "Bog 2"},
-      {"date": "Dec 19, 2026", "time": "2:50 PM", "visitor": "CJR 2014", "home": "Bay State Breakers 2014", "loc": "Bog 2"},
-      {"date": "Dec 19, 2026", "time": "4:40 PM", "visitor": "Boston Jr. Terriers (Red)- Kelleher", "home": "IHC West 2014 - Warilla", "loc": "Skate 3 Red"},
-      {"date": "Dec 19, 2026", "time": "8:00 PM", "visitor": "South Shore Kings", "home": "Bulldogs Hockey Club", "loc": "Janas Memorial"},
-      {"date": "Dec 20, 2026", "time": "8:00 AM", "visitor": "Bay State Breakers 2014", "home": "Top Gun - Hayes", "loc": "Salem Ice Center"},
-      {"date": "Dec 20, 2026", "time": "10:20 AM", "visitor": "CJR 2014", "home": "South Shore Kings", "loc": "Foxboro Sports Center"},
-      {"date": "Dec 20, 2026", "time": "1:40 PM", "visitor": "IHC West 2014 - Warilla", "home": "Minuteman Flames Hogan", "loc": "New England Sports Center"},
-      {"date": "Dec 20, 2026", "time": "2:25 PM", "visitor": "CJR 2014", "home": "South Shore Kings", "loc": "Foxboro Sports Center"},
-      {"date": "Dec 20, 2026", "time": "3:25 PM", "visitor": "Seacoast Spartans", "home": "NorthStars - Giombetti", "loc": "NorthStar Ice Sports"},
-      {"date": "Dec 20, 2026", "time": "6:40 PM", "visitor": "Bulldogs Hockey Club", "home": "Boston Jr. Terriers (Red)- Kelleher", "loc": "Canton Sportsplex"},
-      {"date": "Dec 26, 2026", "time": "9:00 AM", "visitor": "South Shore Kings", "home": "Minuteman Flames Hogan", "loc": "New England Sports Center"},
-      {"date": "Dec 26, 2026", "time": "2:50 PM", "visitor": "NorthStars - Giombetti", "home": "Top Gun - Hayes", "loc": "Salem Ice Center"},
-      {"date": "Dec 27, 2026", "time": "9:10 AM", "visitor": "Minuteman Flames Hogan", "home": "Seacoast Spartans", "loc": "Rinks at Exeter 1"},
-      {"date": "Dec 27, 2026", "time": "11:40 AM", "visitor": "Boston Jr. Terriers (Red)- Kelleher", "home": "South Shore Kings", "loc": "Foxboro Sports Center"},
-      {"date": "Dec 27, 2026", "time": "5:30 PM", "visitor": "NorthStars - Giombetti", "home": "Bulldogs Hockey Club", "loc": "Hallenborg Ice Arena"},
-      {"date": "Jan 2, 2027", "time": "10:10 AM", "visitor": "CJR 2014", "home": "Minuteman Flames Hogan", "loc": "New England Sports Center"},
-      {"date": "Jan 2, 2027", "time": "1:10 PM", "visitor": "CJR 2014", "home": "Minuteman Flames Hogan", "loc": "New England Sports Center"},
-      {"date": "Jan 2, 2027", "time": "2:25 PM", "visitor": "NorthStars - Giombetti", "home": "South Shore Kings", "loc": "Foxboro Sports Center"},
-      {"date": "Jan 2, 2027", "time": "3:40 PM", "visitor": "Top Gun - Hayes", "home": "Boston Jr. Terriers (Red)- Kelleher", "loc": "Canton Sportsplex"},
-      {"date": "Jan 2, 2027", "time": "4:10 PM", "visitor": "Bulldogs Hockey Club", "home": "Bay State Breakers 2014", "loc": "Bog 2"},
-      {"date": "Jan 2, 2027", "time": "6:40 PM", "visitor": "IHC West 2014 - Warilla", "home": "Seacoast Spartans", "loc": "Rinks at Exeter 1"},
-      {"date": "Jan 3, 2027", "time": "11:20 AM", "visitor": "CJR 2014", "home": "NorthStars - Giombetti", "loc": "NorthStar Ice Sports"},
-      {"date": "Jan 3, 2027", "time": "1:40 PM", "visitor": "Bulldogs Hockey Club", "home": "Top Gun - Hayes", "loc": "Salem Ice Center"},
-      {"date": "Jan 3, 2027", "time": "2:40 PM", "visitor": "Seacoast Spartans", "home": "Bay State Breakers 2014", "loc": "Rockland Ice Rink"},
-      {"date": "Jan 3, 2027", "time": "3:20 PM", "visitor": "IHC West 2014 - Warilla", "home": "South Shore Kings", "loc": "Foxboro Sports Center"},
-      {"date": "Jan 3, 2027", "time": "3:25 PM", "visitor": "CJR 2014", "home": "NorthStars - Giombetti", "loc": "NorthStar Ice Sports"},
-      {"date": "Jan 9, 2027", "time": "9:10 AM", "visitor": "NorthStars - Giombetti", "home": "Minuteman Flames Hogan", "loc": "New England Sports Center"},
-      {"date": "Jan 9, 2027", "time": "9:40 AM", "visitor": "South Shore Kings", "home": "Seacoast Spartans", "loc": "Rinks at Exeter 1"},
-      {"date": "Jan 9, 2027", "time": "4:00 PM", "visitor": "Boston Jr. Terriers (Red)- Kelleher", "home": "Bulldogs Hockey Club", "loc": "Hallenborg Ice Arena"},
-      {"date": "Jan 10, 2027", "time": "12:15 PM", "visitor": "Seacoast Spartans", "home": "Top Gun - Hayes", "loc": "Salem Ice Center"},
-      {"date": "Jan 10, 2027", "time": "12:40 PM", "visitor": "IHC West 2014 - Warilla", "home": "NorthStars - Giombetti", "loc": "NorthStar Ice Sports"},
-      {"date": "Jan 10, 2027", "time": "2:00 PM", "visitor": "Boston Jr. Terriers (Red)- Kelleher", "home": "South Shore Kings", "loc": "Foxboro Sports Center"},
-      {"date": "Jan 10, 2027", "time": "4:00 PM", "visitor": "Minuteman Flames Hogan", "home": "Bulldogs Hockey Club", "loc": "Hallenborg Ice Arena"},
-      {"date": "Jan 16, 2027", "time": "11:20 AM", "visitor": "Top Gun - Hayes", "home": "Bay State Breakers 2014", "loc": "Rockland Ice Rink"},
-      {"date": "Jan 17, 2027", "time": "8:30 AM", "visitor": "IHC West 2014 - Warilla", "home": "Seacoast Spartans", "loc": "Rinks at Exeter 2"},
-      {"date": "Jan 23, 2027", "time": "9:30 AM", "visitor": "IHC West 2014 - Warilla", "home": "Bay State Breakers 2014", "loc": "Bog 2"},
-      {"date": "Jan 23, 2027", "time": "11:10 AM", "visitor": "CJR 2014", "home": "Seacoast Spartans", "loc": "Rinks at Exeter 1"},
-      {"date": "Jan 23, 2027", "time": "1:00 PM", "visitor": "NorthStars - Giombetti", "home": "South Shore Kings", "loc": "Foxboro Sports Center"},
-      {"date": "Jan 23, 2027", "time": "5:00 PM", "visitor": "CJR 2014", "home": "Seacoast Spartans", "loc": "Rinks at Exeter 1"},
-      {"date": "Jan 23, 2027", "time": "8:00 PM", "visitor": "Boston Jr. Terriers (Red)- Kelleher", "home": "Bulldogs Hockey Club", "loc": "Janas Memorial"},
-      {"date": "Jan 24, 2027", "time": "10:20 AM", "visitor": "Boston Jr. Terriers (Red)- Kelleher", "home": "Top Gun - Hayes", "loc": "Salem Ice Center"},
-      {"date": "Jan 24, 2027", "time": "12:40 PM", "visitor": "Bay State Breakers 2014", "home": "NorthStars - Giombetti", "loc": "NorthStar Ice Sports"},
-      {"date": "Jan 24, 2027", "time": "2:50 PM", "visitor": "Bulldogs Hockey Club", "home": "Minuteman Flames Hogan", "loc": "New England Sports Center"},
-      {"date": "Jan 24, 2027", "time": "3:10 PM", "visitor": "South Shore Kings", "home": "IHC West 2014 - Warilla", "loc": "Skate 3 Red"},
-      {"date": "Jan 30, 2027", "time": "9:30 AM", "visitor": "Boston Jr. Terriers (Red)- Kelleher", "home": "Bay State Breakers 2014", "loc": "Bog 2"},
-      {"date": "Jan 30, 2027", "time": "11:20 AM", "visitor": "Minuteman Flames Hogan", "home": "Top Gun - Hayes", "loc": "Salem Ice Center"},
-      {"date": "Jan 30, 2027", "time": "11:30 AM", "visitor": "NorthStars - Giombetti", "home": "IHC West 2014 - Warilla", "loc": "Skate 3 Red"},
-      {"date": "Jan 30, 2027", "time": "8:00 PM", "visitor": "South Shore Kings", "home": "Bulldogs Hockey Club", "loc": "Janas Memorial"},
-      {"date": "Jan 31, 2027", "time": "8:00 AM", "visitor": "NorthStars - Giombetti", "home": "Boston Jr. Terriers (Red)- Kelleher", "loc": "Canton Sportsplex"},
-      {"date": "Jan 31, 2027", "time": "9:10 AM", "visitor": "Top Gun - Hayes", "home": "Seacoast Spartans", "loc": "Rinks at Exeter 1"},
-      {"date": "Jan 31, 2027", "time": "3:40 PM", "visitor": "Bay State Breakers 2014", "home": "Minuteman Flames Hogan", "loc": "New England Sports Center"},
-      {"date": "Jan 31, 2027", "time": "4:00 PM", "visitor": "IHC West 2014 - Warilla", "home": "Bulldogs Hockey Club", "loc": "Hallenborg Ice Arena"},
-      {"date": "Feb 6, 2027", "time": "10:35 AM", "visitor": "CJR 2014", "home": "Top Gun - Hayes", "loc": "Salem Ice Center"},
-      {"date": "Feb 6, 2027", "time": "12:40 PM", "visitor": "Bulldogs Hockey Club", "home": "Seacoast Spartans", "loc": "Rinks at Exeter 1"},
-      {"date": "Feb 6, 2027", "time": "2:50 PM", "visitor": "CJR 2014", "home": "Top Gun - Hayes", "loc": "Salem Ice Center"},
-      {"date": "Feb 6, 2027", "time": "3:10 PM", "visitor": "Boston Jr. Terriers (Red)- Kelleher", "home": "Minuteman Flames Hogan", "loc": "New England Sports Center"},
-      {"date": "Feb 6, 2027", "time": "3:40 PM", "visitor": "Bay State Breakers 2014", "home": "NorthStars - Giombetti", "loc": "NorthStar Ice Sports"},
-      {"date": "Feb 7, 2027", "time": "10:20 AM", "visitor": "Bulldogs Hockey Club", "home": "Top Gun - Hayes", "loc": "Salem Ice Center"},
-      {"date": "Feb 7, 2027", "time": "10:40 AM", "visitor": "CJR 2014", "home": "IHC West 2014 - Warilla", "loc": "Skate 3 Red"},
-      {"date": "Feb 7, 2027", "time": "12:10 PM", "visitor": "Seacoast Spartans", "home": "Minuteman Flames Hogan", "loc": "New England Sports Center"},
-      {"date": "Feb 7, 2027", "time": "1:00 PM", "visitor": "Bay State Breakers 2014", "home": "South Shore Kings", "loc": "Foxboro Sports Center"},
-      {"date": "Feb 7, 2027", "time": "2:10 PM", "visitor": "CJR 2014", "home": "IHC West 2014 - Warilla", "loc": "Skate 3 Blue"},
-      {"date": "Feb 13, 2027", "time": "12:50 PM", "visitor": "Seacoast Spartans", "home": "Bay State Breakers 2014", "loc": "Hobomock 1"},
-      {"date": "Feb 14, 2027", "time": "11:45 AM", "visitor": "Seacoast Spartans", "home": "Top Gun - Hayes", "loc": "Salem Ice Center - Olympic"},
-      {"date": "Feb 20, 2027", "time": "10:40 AM", "visitor": "Minuteman Flames Hogan", "home": "South Shore Kings", "loc": "Foxboro Sports Center 1"},
-      {"date": "Feb 20, 2027", "time": "3:35 PM", "visitor": "IHC West 2014 - Warilla", "home": "Top Gun - Hayes", "loc": "Salem Ice Center - Olympic"},
-      {"date": "Feb 20, 2027", "time": "6:50 PM", "visitor": "Boston Jr. Terriers (Red)- Kelleher", "home": "Bay State Breakers 2014", "loc": "Bog 2"},
-      {"date": "Feb 20, 2027", "time": "8:00 PM", "visitor": "NorthStars - Giombetti", "home": "Bulldogs Hockey Club", "loc": "Janas Memorial"},
-      {"date": "Feb 21, 2027", "time": "9:20 AM", "visitor": "Bay State Breakers 2014", "home": "IHC West 2014 - Warilla", "loc": "Skate 3 Red"},
-      {"date": "Feb 21, 2027", "time": "3:25 PM", "visitor": "Minuteman Flames Hogan", "home": "NorthStars - Giombetti", "loc": "NorthStar Ice Sports - Rink A"},
-      {"date": "Feb 21, 2027", "time": "5:20 PM", "visitor": "Top Gun - Hayes", "home": "Boston Jr. Terriers (Red)- Kelleher", "loc": "Canton Sportsplex A"},
-      {"date": "Feb 27, 2027", "time": "12:45 PM", "visitor": "Minuteman Flames Hogan", "home": "Top Gun - Hayes", "loc": "Salem Ice Center - Olympic"},
-      {"date": "Feb 27, 2027", "time": "1:40 PM", "visitor": "Seacoast Spartans", "home": "IHC West 2014 - Warilla", "loc": "Skate 3 Red"},
-      {"date": "Feb 27, 2027", "time": "2:00 PM", "visitor": "NorthStars - Giombetti", "home": "Bay State Breakers 2014", "loc": "Rockland Ice Rink"},
-      {"date": "Feb 27, 2027", "time": "5:15 PM", "visitor": "Bulldogs Hockey Club", "home": "South Shore Kings", "loc": "Foxboro Sports Center 2"},
-      {"date": "Feb 28, 2027", "time": "8:00 AM", "visitor": "Seacoast Spartans", "home": "Boston Jr. Terriers (Red)- Kelleher", "loc": "Canton Sportsplex A"},
-      {"date": "Feb 28, 2027", "time": "11:20 AM", "visitor": "South Shore Kings", "home": "NorthStars - Giombetti", "loc": "NorthStar Ice Sports - Rink A"},
-      {"date": "Feb 28, 2027", "time": "12:40 PM", "visitor": "Bay State Breakers 2014", "home": "IHC West 2014 - Warilla", "loc": "Merrimack (Lawler Arena)"},
-      {"date": "Feb 28, 2027", "time": "5:30 PM", "visitor": "Top Gun - Hayes", "home": "Bulldogs Hockey Club", "loc": "Hallenborg Ice Arena"}
-    ];
-
     let currentSelectedSlotId = 2;
     let currentFilter = 'all';
-    let currentParityFilter = 'all';
     let pendingModalLock = null;
 
+    // Load from LocalStorage if exists
+    function loadSavedSchedule() {
+      const saved = localStorage.getItem('crimson_working_schedule_v2');
+      if (saved) {
+        try {
+          CRIMSON_SLOTS = JSON.parse(saved);
+        } catch(e) {
+          console.error("Could not parse saved schedule", e);
+        }
+      }
+    }
+
+    function saveScheduleState() {
+      localStorage.setItem('crimson_working_schedule_v2', JSON.stringify(CRIMSON_SLOTS));
+    }
+
     function initApp() {
+      loadSavedSchedule();
       renderSlots();
       selectSlot(currentSelectedSlotId);
       renderWorkingScheduleTable();
-      renderMasterScheduleTable();
-      renderMHRLeaderboardTable();
+      renderContactsGrid();
       updateGlobalCounters();
       lucide.createIcons();
     }
 
-    // View Navigation
     function switchView(viewName) {
+      document.getElementById('viewMatchmaker').classList.add('hidden');
+      document.getElementById('viewWorkingSchedule').classList.add('hidden');
+      document.getElementById('viewContactsHub').classList.add('hidden');
+
+      document.getElementById('navMatchmaker').className = 'nav-tab flex items-center gap-2 px-3.5 py-2 rounded-lg text-slate-600 hover:text-slate-900 transition';
+      document.getElementById('navWorkingSchedule').className = 'nav-tab flex items-center gap-2 px-3.5 py-2 rounded-lg text-slate-600 hover:text-slate-900 transition';
+      document.getElementById('navContactsHub').className = 'nav-tab flex items-center gap-2 px-3.5 py-2 rounded-lg text-slate-600 hover:text-slate-900 transition';
+
       if (viewName === 'matchmaker') {
         document.getElementById('viewMatchmaker').classList.remove('hidden');
-        document.getElementById('viewWorkingSchedule').classList.add('hidden');
-        document.getElementById('navMatchmaker').className = 'nav-tab active flex items-center gap-2 px-4 py-2 rounded-lg bg-white text-indigo-700 shadow-xs transition';
-        document.getElementById('navWorkingSchedule').className = 'nav-tab flex items-center gap-2 px-4 py-2 rounded-lg text-slate-600 hover:text-slate-900 transition';
+        document.getElementById('navMatchmaker').className = 'nav-tab active flex items-center gap-2 px-3.5 py-2 rounded-lg bg-white text-indigo-700 shadow-xs transition';
         renderSlots();
-      } else {
-        document.getElementById('viewMatchmaker').classList.add('hidden');
+      } else if (viewName === 'workingSchedule') {
         document.getElementById('viewWorkingSchedule').classList.remove('hidden');
-        document.getElementById('navMatchmaker').className = 'nav-tab flex items-center gap-2 px-4 py-2 rounded-lg text-slate-600 hover:text-slate-900 transition';
-        document.getElementById('navWorkingSchedule').className = 'nav-tab active flex items-center gap-2 px-4 py-2 rounded-lg bg-white text-indigo-700 shadow-xs transition';
+        document.getElementById('navWorkingSchedule').className = 'nav-tab active flex items-center gap-2 px-3.5 py-2 rounded-lg bg-white text-indigo-700 shadow-xs transition';
         renderWorkingScheduleTable();
+      } else if (viewName === 'contactsHub') {
+        document.getElementById('viewContactsHub').classList.remove('hidden');
+        document.getElementById('navContactsHub').className = 'nav-tab active flex items-center gap-2 px-3.5 py-2 rounded-lg bg-white text-indigo-700 shadow-xs transition';
+        renderContactsGrid();
       }
       lucide.createIcons();
     }
@@ -820,7 +712,6 @@
       const openCount = CRIMSON_SLOTS.filter(s => s.status === 'open').length;
       const bookedCount = CRIMSON_SLOTS.filter(s => s.status === 'booked').length;
 
-      document.getElementById('statOpenSlots').innerText = openCount;
       document.getElementById('tabOpenBadge').innerText = `${openCount} TBD`;
       document.getElementById('countFilterTBD').innerText = openCount;
       document.getElementById('countFilterLocked').innerText = bookedCount;
@@ -828,6 +719,7 @@
       document.getElementById('summaryPending').innerText = `${openCount} Slots`;
     }
 
+    // Filter Slots in Left Sidebar
     function filterSlots(type) {
       currentFilter = type;
       document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -838,20 +730,6 @@
         }
       });
       renderSlots();
-    }
-
-    function setParityFilter(filterType) {
-      currentParityFilter = filterType;
-      document.querySelectorAll('.parity-btn').forEach(btn => {
-        if (btn.dataset.parity === filterType) {
-          btn.className = 'parity-btn active px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-bold';
-        } else {
-          btn.className = 'parity-btn px-2.5 py-1 rounded-lg text-slate-600 hover:text-slate-900 font-medium';
-        }
-      });
-      const slot = CRIMSON_SLOTS.find(s => s.id === currentSelectedSlotId);
-      const avail = AVAILABILITY_DATA[slot.id] || { open: [], flexible: [] };
-      renderOpponentCards(avail, slot);
     }
 
     function renderSlots() {
@@ -914,7 +792,7 @@
       `;
       document.getElementById('heatmapDate').innerText = slot.displayDate;
 
-      const avail = AVAILABILITY_DATA[slot.id] || { open: [], flexible: [], conflicted: DIVISION_TEAMS };
+      const avail = AVAILABILITY_DATA[slot.id] || { open: [], flexible: [], conflicted: [] };
       
       document.getElementById('countFullyOpen').innerText = avail.open.length;
       document.getElementById('countFlexible').innerText = avail.flexible.length;
@@ -924,25 +802,36 @@
       renderConflictMatrix(slot, avail);
     }
 
+    function findContactForTeam(teamName) {
+      const clean = teamName.toLowerCase().replace(/[^a-z0-9]/g, '');
+      return CONTACTS_DATA.find(c => {
+        const cClean = c.club.toLowerCase().replace(/[^a-z0-9]/g, '');
+        return cClean.includes(clean) || clean.includes(cClean);
+      });
+    }
+
     function renderOpponentCards(avail, slot) {
       const container = document.getElementById('opponentCards');
       container.innerHTML = '';
 
       if (slot.status === 'booked') {
-        const mhr = MHR_TEAM_DATA[slot.opponent];
+        const contact = findContactForTeam(slot.opponent);
         container.innerHTML = `
-          <div class="col-span-2 bg-white border border-emerald-200 rounded-2xl p-6 shadow-xs flex items-center justify-between">
+          <div class="col-span-2 bg-white border border-emerald-200 rounded-2xl p-6 shadow-xs flex flex-wrap items-center justify-between gap-4">
             <div class="flex items-center gap-4">
               <div class="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600">
                 <i data-lucide="lock" class="w-6 h-6"></i>
               </div>
               <div>
-                <div class="flex items-center gap-2">
-                  <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">Slot Confirmed & Locked</span>
-                  ${mhr ? `<span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200 cursor-pointer hover:bg-amber-100" onclick="openMHRDossier('${slot.opponent}')">MHR: ${mhr.rating} (${mhr.rank})</span>` : ''}
-                </div>
+                <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">Slot Confirmed & Locked</span>
                 <h4 class="text-lg font-black text-slate-900 mt-1">${slot.opponent}</h4>
                 <p class="text-xs text-slate-500">${slot.format} Game @ ${slot.rink} • ${slot.time}</p>
+                ${contact ? `
+                  <div class="flex items-center gap-3 mt-2 text-xs font-semibold text-slate-700">
+                    <span>Coach: ${contact.coach || 'Listed'}</span>
+                    ${contact.coachCell ? `<a href="tel:${contact.coachCell}" class="text-indigo-600 hover:underline flex items-center gap-1"><i data-lucide="phone" class="w-3 h-3"></i> ${contact.coachCell}</a>` : ''}
+                  </div>
+                ` : ''}
               </div>
             </div>
             <button onclick="unlockSlot(${slot.id})" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-rose-50 hover:text-rose-700 text-xs font-bold text-slate-700 border border-slate-200 hover:border-rose-200 transition flex items-center gap-2">
@@ -954,38 +843,22 @@
         return;
       }
 
-      // Filter by Parity
-      let openMatches = [...avail.open];
-      let flexMatches = [...avail.flexible];
-
-      if (currentParityFilter === 'tight') {
-        openMatches = openMatches.filter(t => Math.abs(MHR_TEAM_DATA[t]?.diff || 0) <= 2.0);
-        flexMatches = flexMatches.filter(f => Math.abs(MHR_TEAM_DATA[f.team]?.diff || 0) <= 2.0);
-      } else if (currentParityFilter === 'moderate') {
-        openMatches = openMatches.filter(t => Math.abs(MHR_TEAM_DATA[t]?.diff || 0) > 2.0 && Math.abs(MHR_TEAM_DATA[t]?.diff || 0) <= 4.0);
-        flexMatches = flexMatches.filter(f => Math.abs(MHR_TEAM_DATA[f.team]?.diff || 0) > 2.0 && Math.abs(MHR_TEAM_DATA[f.team]?.diff || 0) <= 4.0);
-      }
-
-      if (openMatches.length === 0 && flexMatches.length === 0) {
+      if (avail.open.length === 0 && avail.flexible.length === 0) {
         container.innerHTML = `
           <div class="col-span-2 bg-white border border-slate-200 rounded-2xl p-8 text-center shadow-xs">
             <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-3 text-slate-400">
               <i data-lucide="calendar-x" class="w-6 h-6"></i>
             </div>
-            <h4 class="text-sm font-extrabold text-slate-900">No Opponents Matching Current Filter</h4>
-            <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">Try setting the Parity Filter to "All" or explore other ice slots on your schedule.</p>
+            <h4 class="text-sm font-extrabold text-slate-900">No Fully Available Opponents</h4>
+            <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">All 10 EHF Platinum teams have existing games on this date.</p>
           </div>
         `;
         lucide.createIcons();
         return;
       }
 
-      // Render Fully Available Opponents
-      openMatches.forEach(team => {
-        const mhr = MHR_TEAM_DATA[team] || { rating: "N/A", rank: "N/A", diff: 0, record: "N/A" };
-        const diffText = mhr.diff >= 0 ? `+${mhr.diff}` : `${mhr.diff}`;
-        const isTight = Math.abs(mhr.diff) <= 2.0;
-
+      avail.open.forEach(team => {
+        const contact = findContactForTeam(team);
         const card = document.createElement('div');
         card.className = "bg-white border border-emerald-200/90 rounded-2xl p-5 flex flex-col justify-between hover:border-emerald-400 transition shadow-xs hover:shadow-md";
         card.innerHTML = `
@@ -994,18 +867,17 @@
               <span class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1">
                 <i data-lucide="check-circle" class="w-3 h-3 text-emerald-600"></i> 100% Fully Available
               </span>
-              <button onclick="openMHRDossier('${team}')" class="text-xs font-bold text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-2.5 py-0.5 rounded-full flex items-center gap-1 transition">
-                <i data-lucide="award" class="w-3 h-3 text-amber-600"></i> MHR: ${mhr.rating} (${mhr.rank})
-              </button>
+              ${contact && contact.responsive === 'Yes' ? '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">Responsive: Yes</span>' : ''}
             </div>
             <h4 class="text-sm font-extrabold text-slate-900 mb-1">${team}</h4>
-            <div class="flex items-center gap-2 mb-3">
-              <span class="text-[11px] font-bold ${isTight ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : 'text-slate-600 bg-slate-100 border-slate-200'} px-2 py-0.5 rounded border">
-                Parity &Delta;: ${diffText}
-              </span>
-              <span class="text-[11px] text-slate-500 font-medium">Record: ${mhr.record}</span>
-            </div>
-            <p class="text-xs text-slate-500 mb-3.5">Zero games scheduled all day. Clean calendar match with no travel friction.</p>
+            <p class="text-xs text-slate-500 mb-3">Zero games scheduled all day. Optimal calendar match.</p>
+
+            ${contact ? `
+              <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200/60 text-xs mb-3 space-y-1">
+                <div class="flex justify-between"><span class="text-slate-500 font-medium">Coach:</span> <span class="font-bold text-slate-800">${contact.coach || 'N/A'}</span></div>
+                ${contact.coachCell ? `<div class="flex justify-between"><span class="text-slate-500 font-medium">Cell:</span> <a href="tel:${contact.coachCell}" class="font-bold text-indigo-600 hover:underline">${contact.coachCell}</a></div>` : ''}
+              </div>
+            ` : ''}
           </div>
           <div class="pt-3.5 border-t border-slate-100 flex items-center justify-between">
             <span class="text-[11px] text-slate-500 font-semibold flex items-center gap-1.5"><i data-lucide="map-pin" class="w-3.5 h-3.5 text-indigo-600"></i> ${slot.rink}</span>
@@ -1017,12 +889,8 @@
         container.appendChild(card);
       });
 
-      // Render Flexible Same-Day Opponents
-      flexMatches.forEach(item => {
-        const mhr = MHR_TEAM_DATA[item.team] || { rating: "N/A", rank: "N/A", diff: 0, record: "N/A" };
-        const diffText = mhr.diff >= 0 ? `+${mhr.diff}` : `${mhr.diff}`;
-        const isTight = Math.abs(mhr.diff) <= 2.0;
-
+      avail.flexible.forEach(item => {
+        const contact = findContactForTeam(item.team);
         const card = document.createElement('div');
         card.className = "bg-white border border-amber-200/90 rounded-2xl p-5 flex flex-col justify-between hover:border-amber-400 transition shadow-xs hover:shadow-md";
         card.innerHTML = `
@@ -1031,19 +899,17 @@
               <span class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200 flex items-center gap-1">
                 <i data-lucide="clock" class="w-3 h-3 text-amber-600"></i> Same-Day Feasible (&ge;4h)
               </span>
-              <button onclick="openMHRDossier('${item.team}')" class="text-xs font-bold text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-2.5 py-0.5 rounded-full flex items-center gap-1 transition">
-                <i data-lucide="award" class="w-3 h-3 text-amber-600"></i> MHR: ${mhr.rating}
-              </button>
+              <span class="text-xs font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">${item.restHours}</span>
             </div>
             <h4 class="text-sm font-extrabold text-slate-900 mb-1">${item.team}</h4>
-            <div class="flex items-center gap-2 mb-2">
-              <span class="text-[11px] font-bold ${isTight ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : 'text-slate-600 bg-slate-100 border-slate-200'} px-2 py-0.5 rounded border">
-                Parity &Delta;: ${diffText}
-              </span>
-              <span class="text-[11px] text-amber-700 font-bold bg-amber-50 px-2 py-0.5 rounded border border-amber-200">${item.restHours}</span>
-            </div>
-            <p class="text-xs text-slate-500 mb-1.5">Plays prior match: <span class="text-slate-800 font-semibold">${item.priorGame}</span></p>
-            <p class="text-[11px] text-emerald-600 font-medium flex items-center gap-1"><i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Complies with &ge;4h rest buffer</p>
+            <p class="text-xs text-slate-500 mb-2">Prior game: <span class="text-slate-800 font-semibold">${item.priorGame}</span></p>
+
+            ${contact ? `
+              <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200/60 text-xs mb-3 space-y-1">
+                <div class="flex justify-between"><span class="text-slate-500 font-medium">Coach:</span> <span class="font-bold text-slate-800">${contact.coach || 'N/A'}</span></div>
+                ${contact.coachCell ? `<div class="flex justify-between"><span class="text-slate-500 font-medium">Cell:</span> <a href="tel:${contact.coachCell}" class="font-bold text-indigo-600 hover:underline">${contact.coachCell}</a></div>` : ''}
+              </div>
+            ` : ''}
           </div>
           <div class="pt-3.5 border-t border-slate-100 flex items-center justify-between mt-3">
             <span class="text-[11px] text-slate-500 font-medium">Rest interval: ${item.restHours}</span>
@@ -1062,12 +928,12 @@
       const tbody = document.getElementById('matrixTableBody');
       tbody.innerHTML = '';
 
-      DIVISION_TEAMS.forEach(team => {
+      const divisionTeams = ["Minuteman Flames Hogan", "NorthStars - Giombetti", "Bulldogs Hockey Club", "IHC West 2014 - Warilla", "Bay State Breakers 2014", "Boston Jr. Terriers (Red)- Kelleher", "Top Gun - Hayes", "South Shore Kings", "Seacoast Spartans", "CJR 2014"];
+
+      divisionTeams.forEach(team => {
         const isOpen = avail.open.includes(team);
         const flexItem = avail.flexible.find(f => f.team === team);
-        const mhr = MHR_TEAM_DATA[team];
-        const diffText = mhr.diff >= 0 ? `+${mhr.diff}` : `${mhr.diff}`;
-        const isTight = Math.abs(mhr.diff) <= 2.0;
+        const contact = findContactForTeam(team);
 
         let statusBadge = '';
         let bufferText = '<span class="text-emerald-700 font-bold">&ge; 4.0h (100% Free)</span>';
@@ -1088,25 +954,25 @@
         const tr = document.createElement('tr');
         tr.className = "hover:bg-slate-50/70 transition";
         tr.innerHTML = `
-          <td class="py-3 px-4 font-bold text-slate-800 cursor-pointer hover:text-indigo-600" onclick="openMHRDossier('${team}')">${team}</td>
+          <td class="py-3 px-4 font-bold text-slate-800">${team}</td>
           <td class="py-3 px-4">
-            <span class="font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">${mhr.rating}</span>
-            <span class="text-slate-500 font-medium ml-1">(${mhr.rank})</span>
-          </td>
-          <td class="py-3 px-4">
-            <span class="font-bold ${isTight ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : 'text-slate-600 bg-slate-100 border-slate-200'} px-2 py-0.5 rounded border">
-              ${diffText}
-            </span>
+            <span class="font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">${contact ? contact.rating : '86.0'}</span>
+            <span class="text-slate-500 font-medium ml-1">EHF Platinum</span>
           </td>
           <td class="py-3 px-4">${statusBadge}</td>
           <td class="py-3 px-4">${bufferText}</td>
+          <td class="py-3 px-4">
+            ${contact ? `<span class="font-semibold text-slate-700">${contact.coach || 'Listed'}</span> ${contact.coachCell ? `<span class="text-slate-400">(${contact.coachCell})</span>` : ''}` : '-'}
+          </td>
           <td class="py-3 px-4 text-right">${actionBtn}</td>
         `;
         tbody.appendChild(tr);
       });
     }
 
-    // Working Schedule Table Rendering
+    // ==========================================
+    // VIEW 2: WORKING SCHEDULE TABLE
+    // ==========================================
     function renderWorkingScheduleTable() {
       const tbody = document.getElementById('workingScheduleTableBody');
       if (!tbody) return;
@@ -1114,28 +980,15 @@
 
       CRIMSON_SLOTS.forEach(slot => {
         const isLocked = slot.status === 'booked';
-        const mhr = MHR_TEAM_DATA[slot.opponent];
+        const contact = findContactForTeam(slot.opponent);
         const tr = document.createElement('tr');
         tr.className = `hover:bg-indigo-50/30 transition ${isLocked ? 'bg-emerald-50/20' : ''}`;
 
         let opponentOptions = `<option value="TBD" ${slot.opponent === 'TBD' ? 'selected' : ''}>-- TBD (Select Opponent) --</option>`;
-        if (slot.opponent.includes("Yale") || slot.opponent.includes("New England Stars")) {
-          opponentOptions += `<option value="${slot.opponent}" selected>${slot.opponent}</option>`;
-        }
-        DIVISION_TEAMS.forEach(team => {
-          opponentOptions += `<option value="${team}" ${slot.opponent === team ? 'selected' : ''}>${team} (MHR: ${MHR_TEAM_DATA[team].rating})</option>`;
+        
+        CONTACTS_DATA.forEach(c => {
+          opponentOptions += `<option value="${c.club}" ${slot.opponent === c.club ? 'selected' : ''}>${c.club} (${c.org})</option>`;
         });
-
-        let mhrDisplay = '<span class="text-slate-400 font-medium">Unassigned</span>';
-        if (mhr) {
-          const diffText = mhr.diff >= 0 ? `+${mhr.diff}` : `${mhr.diff}`;
-          mhrDisplay = `
-            <span class="font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 cursor-pointer hover:bg-amber-100" onclick="openMHRDossier('${slot.opponent}')">${mhr.rating}</span>
-            <span class="font-semibold text-slate-600 ml-1">(&Delta; ${diffText})</span>
-          `;
-        } else if (isLocked) {
-          mhrDisplay = '<span class="text-slate-500 font-medium">Exhibition Team</span>';
-        }
 
         tr.innerHTML = `
           <td class="py-3.5 px-4 font-bold text-slate-900">#${slot.id}</td>
@@ -1155,7 +1008,14 @@
               ${opponentOptions}
             </select>
           </td>
-          <td class="py-3.5 px-4">${mhrDisplay}</td>
+          <td class="py-3.5 px-4">
+            ${contact ? `
+              <div class="text-xs">
+                <span class="font-bold text-slate-800">${contact.coach || contact.manager || 'Listed'}</span>
+                ${contact.coachCell ? `<div class="text-[11px] text-indigo-600">${contact.coachCell}</div>` : ''}
+              </div>
+            ` : '<span class="text-slate-400">-</span>'}
+          </td>
           <td class="py-3.5 px-4 text-center">
             ${isLocked 
               ? `<span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold border border-emerald-200 flex items-center gap-1 justify-center"><i data-lucide="check" class="w-3 h-3"></i> Locked</span>`
@@ -1181,6 +1041,7 @@
       slot.opponent = newOpponent;
       slot.status = (newOpponent === 'TBD' || newOpponent === '') ? 'open' : 'booked';
       
+      saveScheduleState();
       renderWorkingScheduleTable();
       renderSlots();
       selectSlot(currentSelectedSlotId);
@@ -1191,6 +1052,7 @@
       const slot = CRIMSON_SLOTS.find(s => s.id === slotId);
       if (!slot) return;
       slot.format = newFormat;
+      saveScheduleState();
       showToast(`Slot #${slotId} format updated to ${newFormat}`);
     }
 
@@ -1198,6 +1060,7 @@
       const slot = CRIMSON_SLOTS.find(s => s.id === slotId);
       if (!slot) return;
       slot.rink = newRink;
+      saveScheduleState();
       showToast(`Slot #${slotId} venue updated to ${newRink}`);
     }
 
@@ -1207,10 +1070,11 @@
       slot.opponent = 'TBD';
       slot.status = 'open';
 
+      saveScheduleState();
       renderWorkingScheduleTable();
       renderSlots();
       selectSlot(slotId);
-      showToast(`Slot #${slotId} unlocked and reset to TBD`);
+      showToast(`Slot #${slotId} reset to TBD`);
     }
 
     function goToMatchmakerForSlot(slotId) {
@@ -1220,10 +1084,8 @@
 
     function promptLockOpponent(slotId, team, date, time) {
       pendingModalLock = { slotId, team, date, time };
-      const mhr = MHR_TEAM_DATA[team];
-      document.getElementById('modalOpponentName').innerText = `${team} (MHR: ${mhr ? mhr.rating : 'N/A'})`;
+      document.getElementById('modalOpponentName').innerText = team;
       document.getElementById('modalSlotTime').innerText = `${date} @ ${time}`;
-      document.getElementById('modalMHRRatingSpread').innerText = mhr ? `Rating Spread &Delta;: ${mhr.diff >= 0 ? '+' + mhr.diff : mhr.diff}` : 'Custom Matchup';
       document.getElementById('proposalModal').classList.remove('hidden');
     }
 
@@ -1240,92 +1102,182 @@
         slot.opponent = team;
         slot.status = 'booked';
       }
+      saveScheduleState();
       closeProposalModal();
       renderSlots();
       selectSlot(slotId);
       renderWorkingScheduleTable();
-      showToast(`Locked ${team} into Slot #${slotId} & Working Schedule!`);
+      showToast(`Locked ${team} into Slot #${slotId}!`);
     }
 
-    // MHR Dossier Modal
-    function openMHRDossier(teamName) {
-      const mhr = MHR_TEAM_DATA[teamName];
-      if (!mhr) return;
+    // ==========================================
+    // VIEW 3: CONTACTS DIRECTORY HUB
+    // ==========================================
+    function renderContactsGrid() {
+      const container = document.getElementById('contactsCardsGrid');
+      if (!container) return;
+      container.innerHTML = '';
 
-      document.getElementById('dossierTeamName').innerText = teamName;
-      document.getElementById('dossierRating').innerText = mhr.rating;
-      document.getElementById('dossierRank').innerText = mhr.rank;
-      document.getElementById('dossierDelta').innerText = mhr.diff >= 0 ? `+${mhr.diff}` : `${mhr.diff}`;
-      document.getElementById('dossierRecord').innerText = `${mhr.record} (${mhr.stateRank})`;
-      document.getElementById('dossierSOS').innerText = `${mhr.sos} Rating`;
-      document.getElementById('dossierAGD').innerText = `${mhr.agd} Goals/Game`;
+      const query = (document.getElementById('contactSearchInput')?.value || '').toLowerCase();
+      const orgFilter = document.getElementById('contactOrgFilter')?.value || 'ALL';
+      const respFilter = document.getElementById('contactResponsiveFilter')?.value || 'ALL';
 
-      const parityClass = Math.abs(mhr.diff) <= 1.0 
-        ? "5-Star Elite Parity Matchup" 
-        : (Math.abs(mhr.diff) <= 2.5 ? "4-Star Competitive Matchup" : "3-Star Developmental Game");
-      document.getElementById('dossierParityClass').innerText = parityClass;
+      const filtered = CONTACTS_DATA.filter(c => {
+        const matchesQuery = 
+          c.club.toLowerCase().includes(query) ||
+          c.coach.toLowerCase().includes(query) ||
+          c.coachEmail.toLowerCase().includes(query) ||
+          c.location.toLowerCase().includes(query) ||
+          c.manager.toLowerCase().includes(query) ||
+          c.notes.toLowerCase().includes(query);
 
-      document.getElementById('mhrDossierModal').classList.remove('hidden');
-    }
+        const matchesOrg = (orgFilter === 'ALL') || c.org.includes(orgFilter);
 
-    function closeMHRDossierModal() {
-      document.getElementById('mhrDossierModal').classList.add('hidden');
-    }
+        let matchesResp = true;
+        if (respFilter === 'YES') matchesResp = (c.responsive === 'Yes');
+        if (respFilter === 'CURTIS') matchesResp = (c.priority === 'Curtis');
+        if (respFilter === 'AYRTON') matchesResp = (c.priority === 'Ayrton');
 
-    // MHR Leaderboard Modal
-    function openMHRLeaderboardModal() {
-      document.getElementById('mhrLeaderboardModal').classList.remove('hidden');
-    }
-    function closeMHRLeaderboardModal() {
-      document.getElementById('mhrLeaderboardModal').classList.add('hidden');
-    }
-
-    function renderMHRLeaderboardTable() {
-      const tbody = document.getElementById('mhrLeaderboardTableBody');
-      if (!tbody) return;
-      tbody.innerHTML = '';
-
-      // Sort teams by rating descending
-      const sortedTeams = Object.keys(MHR_TEAM_DATA).sort((a, b) => MHR_TEAM_DATA[b].rating - MHR_TEAM_DATA[a].rating);
-
-      sortedTeams.forEach(team => {
-        const data = MHR_TEAM_DATA[team];
-        const diffText = data.diff >= 0 ? `+${data.diff}` : `${data.diff}`;
-        const isCrimsonNear = Math.abs(data.diff) <= 2.0;
-
-        const tr = document.createElement('tr');
-        tr.className = "hover:bg-amber-50/40 border-b border-slate-100 transition";
-        tr.innerHTML = `
-          <td class="p-2.5 font-bold text-slate-900">${data.rank}</td>
-          <td class="p-2.5 font-bold text-slate-800 cursor-pointer hover:text-indigo-600" onclick="openMHRDossier('${team}')">${team}</td>
-          <td class="p-2.5 text-center font-extrabold text-amber-800 bg-amber-50/80 rounded">${data.rating}</td>
-          <td class="p-2.5 text-center text-slate-700 font-semibold">${data.record}</td>
-          <td class="p-2.5 text-center text-slate-600">${data.agd}</td>
-          <td class="p-2.5 text-center text-slate-600">${data.sos}</td>
-          <td class="p-2.5 text-right font-bold ${isCrimsonNear ? 'text-emerald-600' : 'text-slate-500'}">${diffText}</td>
-        `;
-        tbody.appendChild(tr);
+        return matchesQuery && matchesOrg && matchesResp;
       });
+
+      filtered.forEach((c, index) => {
+        const card = document.createElement('div');
+        card.className = "bg-white border border-slate-200/90 rounded-2xl p-4.5 flex flex-col justify-between hover:border-indigo-400 transition shadow-xs hover:shadow-md";
+
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">${c.org || 'Independent'}</span>
+              ${c.responsive === 'Yes' 
+                ? '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center gap-1"><i data-lucide="check" class="w-3 h-3 text-emerald-600"></i> Responsive</span>'
+                : (c.priority ? `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">${c.priority}</span>` : '')
+              }
+            </div>
+
+            <h4 class="text-sm font-extrabold text-slate-900 mb-1">${c.club}</h4>
+            <p class="text-xs text-slate-500 mb-3 flex items-center gap-1.5">
+              <i data-lucide="map-pin" class="w-3 h-3 text-slate-400"></i> ${c.location || 'Location Not Specified'}
+            </p>
+
+            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/70 text-xs space-y-1.5 mb-3">
+              <div class="flex justify-between items-center">
+                <span class="text-slate-500 font-medium">Head Coach:</span>
+                <span class="font-bold text-slate-800">${c.coach || 'None Listed'}</span>
+              </div>
+              ${c.coachCell ? `
+                <div class="flex justify-between items-center">
+                  <span class="text-slate-500 font-medium">Phone:</span>
+                  <a href="tel:${c.coachCell}" class="font-bold text-indigo-600 hover:underline flex items-center gap-1"><i data-lucide="phone" class="w-3 h-3"></i> ${c.coachCell}</a>
+                </div>
+              ` : ''}
+              ${c.coachEmail ? `
+                <div class="flex justify-between items-center">
+                  <span class="text-slate-500 font-medium">Email:</span>
+                  <a href="mailto:${c.coachEmail}" class="font-semibold text-indigo-600 hover:underline truncate max-w-[180px]">${c.coachEmail}</a>
+                </div>
+              ` : ''}
+            </div>
+
+            ${c.notes ? `
+              <div class="text-[11px] text-slate-600 bg-amber-50/60 border border-amber-200/70 p-2.5 rounded-xl line-clamp-2 mb-3">
+                <span class="font-bold text-amber-900">Note:</span> ${c.notes}
+              </div>
+            ` : ''}
+          </div>
+
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">${c.rating ? c.rating + ' Rating' : 'MHR'}</span>
+            <button onclick="openContactModalByIndex(${index})" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 transition flex items-center gap-1">
+              View Full Profile <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+      lucide.createIcons();
     }
 
-    function exportWorkingScheduleCSV() {
-      let csv = "Slot,Format,Date,Time,Location,Opponent,MHR Rating,Parity Delta,Status\n";
-      CRIMSON_SLOTS.forEach(s => {
-        const mhr = MHR_TEAM_DATA[s.opponent];
-        const rating = mhr ? mhr.rating : "N/A";
-        const diff = mhr ? mhr.diff : "N/A";
-        csv += `"${s.id}","${s.format}","${s.displayDate}","${s.time}","${s.rink}","${s.opponent}","${rating}","${diff}","${s.status}"\n`;
+    function openContactModalByIndex(index) {
+      const c = CONTACTS_DATA[index];
+      if (!c) return;
+
+      document.getElementById('modalClubName').innerText = c.club;
+      document.getElementById('modalClubOrg').innerText = `${c.org || 'Independent'} • Assigned: ${c.priority || 'General'}`;
+      document.getElementById('modalClubLoc').innerText = c.location || 'Location Not Specified';
+      document.getElementById('modalClubRating').innerText = c.rating ? `${c.rating} Rating` : 'MHR Tier 1';
+
+      document.getElementById('modalCoachName').innerText = c.coach || 'None Listed';
+      document.getElementById('modalCoachEmail').innerHTML = c.coachEmail ? `<a href="mailto:${c.coachEmail}" class="text-indigo-600 underline">${c.coachEmail}</a>` : 'No email';
+      document.getElementById('modalCoachCell').innerHTML = c.coachCell ? `<a href="tel:${c.coachCell}" class="text-indigo-600 underline">${c.coachCell}</a>` : 'No cell';
+
+      if (c.asstCoach || c.asstCoachCell || c.asstCoachEmail) {
+        document.getElementById('modalAsstCoachSection').classList.remove('hidden');
+        document.getElementById('modalAsstCoachName').innerText = c.asstCoach || 'Assistant Coach';
+        document.getElementById('modalAsstCoachEmail').innerText = c.asstCoachEmail || '';
+        document.getElementById('modalAsstCoachCell').innerText = c.asstCoachCell || '';
+      } else {
+        document.getElementById('modalAsstCoachSection').classList.add('hidden');
+      }
+
+      if (c.manager || c.managerCell || c.managerEmail) {
+        document.getElementById('modalManagerSection').classList.remove('hidden');
+        document.getElementById('modalManagerName').innerText = c.manager || 'Manager';
+        document.getElementById('modalManagerEmail').innerText = c.managerEmail || '';
+        document.getElementById('modalManagerCell').innerText = c.managerCell || '';
+      } else {
+        document.getElementById('modalManagerSection').classList.add('hidden');
+      }
+
+      document.getElementById('modalNotesText').innerText = c.notes || 'No outreach notes recorded.';
+
+      if (c.games) {
+        document.getElementById('modalGamesSection').classList.remove('hidden');
+        document.getElementById('modalGamesText').innerText = c.games;
+      } else {
+        document.getElementById('modalGamesSection').classList.add('hidden');
+      }
+
+      document.getElementById('contactModal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeContactModal() {
+      document.getElementById('contactModal').classList.add('hidden');
+    }
+
+    function exportContactsCSV() {
+      let csv = "Club,Org,Rating,Priority,Location,Coach,Coach Email,Coach Cell,Asst Coach,Manager,Responsive,Notes,Games\n";
+      CONTACTS_DATA.forEach(c => {
+        csv += `"${c.club}","${c.org}","${c.rating}","${c.priority}","${c.location}","${c.coach}","${c.coachEmail}","${c.coachCell}","${c.asstCoach}","${c.manager}","${c.responsive}","${c.notes.replace(/"/g, '""')}","${c.games}"\n`;
       });
 
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.setAttribute("href", url);
-      link.setAttribute("download", `Crimson_2014_Working_Schedule_MHR_2026-2027.csv`);
+      link.setAttribute("download", `Youth_Hockey_Contacts_Directory.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      showToast("Working Schedule exported with MHR parity data!");
+      showToast("Contacts exported to CSV!");
+    }
+
+    function exportWorkingScheduleCSV() {
+      let csv = "Slot,Format,Date,Time,Location,Opponent,Status\n";
+      CRIMSON_SLOTS.forEach(s => {
+        csv += `"${s.id}","${s.format}","${s.displayDate}","${s.time}","${s.rink}","${s.opponent}","${s.status}"\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `Crimson_2014_Working_Schedule.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast("Working Schedule exported!");
     }
 
     function showToast(msg) {
